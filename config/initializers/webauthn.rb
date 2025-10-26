@@ -3,12 +3,12 @@
 
 WebAuthn.configure do |config|
   # Set the allowed origins based on the environment
-  # In development: http://localhost:3000
+  # In development: https://local.fitorforget.com:3000 (SSL required for WebAuthn)
   # In production: Use the actual production domain (HTTPS required)
   config.allowed_origins = if Rails.env.development?
-    ["http://localhost:3000"]
+    ["https://local.fitorforget.com:3000"]
   elsif Rails.env.test?
-    ["http://localhost:3000"]
+    ["https://local.fitorforget.com:3000"]
   else
     # In production, this should be set via environment variable
     # Example: https://fitorforget.com

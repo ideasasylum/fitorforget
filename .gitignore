@@ -33,6 +33,8 @@
 # Ignore key files for decrypting credentials and more.
 /config/*.key
 
+# Ignore SSL certificates for local development
+*.pem
 
 /app/assets/builds/*
 !/app/assets/builds/.keep
