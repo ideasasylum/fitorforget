@@ -13,27 +13,27 @@ This breakdown implements passwordless authentication using WebAuthn biometrics,
 #### Task Group 1: Rails Setup & Dependencies
 **Dependencies:** None
 
-- [ ] 1.0 Complete Rails foundation setup
-  - [ ] 1.1 Add webauthn gem to Gemfile
+- [x] 1.0 Complete Rails foundation setup
+  - [x] 1.1 Add webauthn gem to Gemfile
     - Add `gem "webauthn"` to Gemfile
     - Run `bundle install`
     - Version: Use latest stable release
-  - [ ] 1.2 Configure session store for indefinite sessions
+  - [x] 1.2 Configure session store for indefinite sessions
     - Generate sessions migration: `rails generate session_migration`
     - Run migration to create sessions table
     - Create `/config/initializers/session_store.rb`
     - Configure: `Rails.application.config.session_store :active_record_store`
     - No expiry timeout - sessions persist indefinitely
-  - [ ] 1.3 Configure WebAuthn gem settings
+  - [x] 1.3 Configure WebAuthn gem settings
     - Create `/config/initializers/webauthn.rb`
     - Set origin based on environment (localhost for dev, production domain)
     - Set relying party name (e.g., "Fit or Forget")
     - Configure credential options (timeout, user verification)
-  - [ ] 1.4 Enable secure session cookies
+  - [x] 1.4 Enable secure session cookies
     - In session_store.rb, set `secure: true` for production
     - Set `httponly: true` to prevent XSS attacks
     - Set `same_site: :lax` for CSRF protection
-  - [ ] 1.5 Create mise.toml for dependency management
+  - [x] 1.5 Create mise.toml for dependency management
     - Create `mise.toml` in project root
     - Specify Ruby version (e.g., `ruby = "3.3.0"` or latest)
     - Specify Node.js version (e.g., `node = "20"` or latest LTS)
