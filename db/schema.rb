@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_10_26_114329) do
+ActiveRecord::Schema[8.1].define(version: 2025_10_26_215340) do
   create_table "credentials", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "external_id", null: false
@@ -21,6 +21,17 @@ ActiveRecord::Schema[8.1].define(version: 2025_10_26_114329) do
     t.integer "user_id", null: false
     t.index ["external_id"], name: "index_credentials_on_external_id", unique: true
     t.index ["user_id"], name: "index_credentials_on_user_id"
+  end
+
+  create_table "programs", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.text "description"
+    t.string "title", null: false
+    t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.string "uuid", null: false
+    t.index ["user_id"], name: "index_programs_on_user_id"
+    t.index ["uuid"], name: "index_programs_on_uuid", unique: true
   end
 
   create_table "sessions", force: :cascade do |t|
@@ -42,4 +53,5 @@ ActiveRecord::Schema[8.1].define(version: 2025_10_26_114329) do
   end
 
   add_foreign_key "credentials", "users", on_delete: :cascade
+  add_foreign_key "programs", "users", on_delete: :cascade
 end

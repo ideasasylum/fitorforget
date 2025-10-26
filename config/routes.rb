@@ -18,6 +18,9 @@ Rails.application.routes.draw do
   post   "/signin/verify",    to: "sessions#handle_authentication", as: :verify_signin
   delete "/logout",           to: "sessions#destroy",            as: :logout
 
+  # Programs routes
+  resources :programs
+
   # Defines the root path route ("/")
   root "home#index"
 end

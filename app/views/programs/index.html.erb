@@ -1,0 +1,41 @@
+<div class="min-h-screen bg-gradient-to-br from-indigo-100 via-purple-50 to-pink-100 py-12 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-4xl mx-auto">
+    <div class="flex justify-between items-center mb-8">
+      <h1 class="text-3xl font-extrabold text-gray-900">My Programs</h1>
+      <% if @programs.any? %>
+        <%= link_to "New Program", new_program_path, class: "inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors" %>
+      <% end %>
+    </div>
+
+    <% if @programs.empty? %>
+      <div class="bg-white rounded-lg shadow-md p-12 text-center">
+        <div class="max-w-md mx-auto">
+          <svg class="mx-auto h-16 w-16 text-gray-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg>
+          <h2 class="text-2xl font-bold text-gray-900 mb-2">Create Your First Program</h2>
+          <p class="text-gray-600 mb-6">Get started by creating your first exercise program to organize your workouts</p>
+          <%= link_to "Create Program", new_program_path, class: "inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors" %>
+        </div>
+      </div>
+    <% else %>
+      <div class="grid gap-6 md:grid-cols-2">
+        <% @programs.each do |program| %>
+          <div class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
+            <h3 class="text-xl font-bold text-gray-900 mb-2"><%= program.title %></h3>
+            <% if program.description.present? %>
+              <p class="text-gray-700 mb-4 line-clamp-3"><%= truncate(program.description, length: 150) %></p>
+            <% else %>
+              <p class="text-gray-400 italic mb-4">No description</p>
+            <% end %>
+            <div class="flex space-x-3">
+              <%= link_to "View", program_path(program), class: "inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors" %>
+              <%= link_to "Edit", edit_program_path(program), class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors" %>
+              <%= button_to "Delete", program_path(program), method: :delete, form: { data: { turbo_confirm: "Are you sure you want to delete '#{program.title}'? This action cannot be undone." } }, class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-red-700 bg-red-100 hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors" %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>

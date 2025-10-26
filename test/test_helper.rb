@@ -13,3 +13,15 @@ module ActiveSupport
     # Add more helper methods to be used by all tests here...
   end
 end
+
+module ActionDispatch
+  class IntegrationTest
+    # Helper method to sign in a user for testing
+    def sign_in_as(user)
+      post signin_path, params: { email: user.email }
+      # Note: Full WebAuthn sign-in requires browser interaction
+      # For controller tests, we can manually set the session
+      session[:user_id] = user.id if defined?(session)
+    end
+  end
+end
