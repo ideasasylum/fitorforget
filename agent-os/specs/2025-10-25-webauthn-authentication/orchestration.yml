@@ -1,0 +1,6 @@
+task_groups:
+  - name: Task Group 1 - Rails Setup & Dependencies
+  - name: Task Group 2 - User & Credential Models
+  - name: Task Group 3 - Authentication Controllers & Routes
+  - name: Task Group 4 - Authentication UI & WebAuthn Integration
+  - name: Task Group 5 - Strategic Test Coverage & Integration Testing

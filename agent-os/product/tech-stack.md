@@ -1,9 +1,10 @@
 # Tech Stack
 
 ## Framework & Runtime
-- **Application Framework:** Rails 8
-- **Language/Runtime:** Ruby 3
+- **Application Framework:** Rails 8.1
+- **Language/Runtime:** Ruby 3.4.7
 - **Package Manager:** bundler, yarn
+- **Version Manager:** mise (https://mise.jdx.dev) for Ruby and Node.js dependencies
 
 ## Frontend
 - **JavaScript Framework:** Turbo and Stimulus (Rails 8 defaults)
