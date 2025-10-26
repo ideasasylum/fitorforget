@@ -1,12 +1,4 @@
-<div class="relative">
-  <!-- Close button -->
-  <%= link_to program_path(program), data: { turbo_frame: "exercise-form-frame" }, class: "absolute -top-2 -right-2 p-2 text-gray-400 hover:text-gray-600 bg-white rounded-full shadow-sm border border-gray-200 min-w-[44px] min-h-[44px] flex items-center justify-center z-10" do %>
-    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-    </svg>
-  <% end %>
-
-  <%= form_with model: exercise, url: exercise.new_record? ? program_exercises_path(program) : exercise_path(exercise), class: "space-y-4" do |f| %>
+<%= form_with model: exercise, url: exercise.new_record? ? program_exercises_path(program) : exercise_path(exercise), class: "space-y-4" do |f| %>
   <% if exercise.errors.any? %>
     <div class="rounded-md bg-red-50 p-4 border border-red-200">
       <div class="flex">
@@ -83,9 +75,10 @@
 
   <div class="flex gap-3">
     <%= f.submit (exercise.new_record? ? "Add Exercise" : "Update Exercise"), class: "flex-1 py-3 px-4 border border-transparent text-base font-medium rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors min-h-[44px]" %>
-    <% unless exercise.new_record? %>
+    <% if exercise.new_record? %>
+      <%= link_to "Cancel", program_path(program), data: { turbo_frame: "exercise-form-frame" }, class: "flex-1 py-3 px-4 border border-gray-300 text-base font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors min-h-[44px] text-center" %>
+    <% else %>
       <%= link_to "Cancel", exercise_path(exercise), data: { turbo_frame: "exercise-#{exercise.id}" }, class: "flex-1 py-3 px-4 border border-gray-300 text-base font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors min-h-[44px] text-center" %>
     <% end %>
   </div>
-  <% end %>
-</div>
+<% end %>
