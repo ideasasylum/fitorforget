@@ -1,30 +1,30 @@
-<div class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+<div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 py-12 px-4 sm:px-6 lg:px-8">
   <div class="max-w-md w-full space-y-8">
     <div>
       <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
         Sign in or create an account
       </h2>
-      <p class="mt-2 text-center text-sm text-gray-600">
+      <p class="mt-2 text-center text-base text-gray-600">
         Enter your email to continue
       </p>
     </div>
 
     <%= turbo_frame_tag "auth_flow" do %>
       <%= form_with url: auth_check_path, method: :post, class: "mt-8 space-y-6" do |form| %>
-        <div class="rounded-md shadow-sm -space-y-px">
+        <div class="rounded-md shadow-sm">
           <div>
             <%= form.label :email, "Email address", class: "sr-only" %>
             <%= form.email_field :email,
               required: true,
               autofocus: true,
               placeholder: "Enter your email",
-              class: "appearance-none rounded-md relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-base" %>
+              class: "appearance-none rounded-lg relative block w-full px-4 py-4 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-base sm:text-lg" %>
           </div>
         </div>
 
         <div>
           <%= form.submit "Continue",
-            class: "group relative w-full flex justify-center py-3 px-4 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 cursor-pointer" %>
+            class: "group relative w-full flex justify-center py-4 px-4 border border-transparent text-base sm:text-lg font-medium rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 cursor-pointer transition-colors duration-200 shadow-md hover:shadow-lg" %>
         </div>
       <% end %>
     <% end %>

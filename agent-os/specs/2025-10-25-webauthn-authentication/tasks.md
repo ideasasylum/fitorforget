@@ -235,8 +235,8 @@ This breakdown implements passwordless authentication using WebAuthn biometrics,
 #### Task Group 4: Authentication UI & WebAuthn Integration
 **Dependencies:** Task Group 3
 
-- [ ] 4.0 Complete frontend authentication interface
-  - [ ] 4.1 Write 2-8 focused tests for Stimulus WebAuthn controller
+- [x] 4.0 Complete frontend authentication interface
+  - [x] 4.1 Write 2-8 focused tests for Stimulus WebAuthn controller
     - Limit to 2-8 highly focused tests maximum
     - Test critical JavaScript behaviors only:
       - WebAuthn browser API availability detection
@@ -245,7 +245,7 @@ This breakdown implements passwordless authentication using WebAuthn biometrics,
       - Error handling displays user-friendly messages
     - Use JavaScript testing framework (if available) or manual testing
     - Skip exhaustive interaction testing
-  - [ ] 4.2 Create unified auth form view
+  - [x] 4.2 Create unified auth form view
     - Create `app/views/sessions/new.html.erb`
     - Wrap entire form in: `turbo_frame_tag "auth_flow"`
     - Single email input field:
@@ -257,7 +257,7 @@ This breakdown implements passwordless authentication using WebAuthn biometrics,
     - Submit button: "Continue" or "Sign In / Sign Up"
     - Clear, simple layout using Tailwind CSS
     - Mobile-first responsive design
-  - [ ] 4.3 Create Turbo Frame partials for WebAuthn flows
+  - [x] 4.3 Create Turbo Frame partials for WebAuthn flows
     - Create `app/views/sessions/_register.html.erb`:
       - Wrap in: `turbo_frame_tag "auth_flow"`
       - Display message: "Create your account using biometrics"
@@ -272,11 +272,11 @@ This breakdown implements passwordless authentication using WebAuthn biometrics,
       - Stimulus controller target: `data-controller="webauthn"`
       - Action: `data-action="turbo:frame-load->webauthn#authenticate"`
       - Loading indicator while WebAuthn prompt active
-  - [ ] 4.4 Generate Stimulus WebAuthn controller
+  - [x] 4.4 Generate Stimulus WebAuthn controller
     - Create: `app/javascript/controllers/webauthn_controller.js`
     - Import Stimulus controller base
     - Define targets: challenge, credential, form
-  - [ ] 4.5 Implement WebAuthn registration in Stimulus controller
+  - [x] 4.5 Implement WebAuthn registration in Stimulus controller
     - Method: `register()`
     - Check browser support: `if (!window.PublicKeyCredential)`
       - Display error: "Your browser doesn't support biometric authentication"
@@ -293,7 +293,7 @@ This breakdown implements passwordless authentication using WebAuthn biometrics,
       - User cancelled: "Registration cancelled. Please try again."
       - Generic error: "Unable to register credential. Please try again."
       - Display errors in UI
-  - [ ] 4.6 Implement WebAuthn authentication in Stimulus controller
+  - [x] 4.6 Implement WebAuthn authentication in Stimulus controller
     - Method: `authenticate()`
     - Check browser support (same as registration)
     - Parse challenge data from data attributes
@@ -308,7 +308,7 @@ This breakdown implements passwordless authentication using WebAuthn biometrics,
       - Credential not recognized: "Unable to verify your identity."
       - Timeout: "Authentication timed out. Please try again."
       - Display errors in UI
-  - [ ] 4.7 Style authentication UI with Tailwind CSS
+  - [x] 4.7 Style authentication UI with Tailwind CSS
     - Mobile-first responsive layout
     - Center form on screen (max-width: ~400px)
     - Large, clear typography (min 16px to prevent mobile zoom)
@@ -318,13 +318,13 @@ This breakdown implements passwordless authentication using WebAuthn biometrics,
     - Loading states with spinners or animations
     - Error states with red text and icons
     - Success states with brief confirmation
-  - [ ] 4.8 Add logout link to navigation
+  - [x] 4.8 Add logout link to navigation
     - Add to main layout (`app/views/layouts/application.html.erb`)
     - Show only when `logged_in?`
     - Link to: `logout_path, method: :delete`
     - Confirm before logout (optional)
     - Mobile-friendly placement
-  - [ ] 4.9 Implement error display for auth failures
+  - [x] 4.9 Implement error display for auth failures
     - Create error partial: `app/views/sessions/_error.html.erb`
     - Display flash messages for:
       - Invalid email format
@@ -332,7 +332,7 @@ This breakdown implements passwordless authentication using WebAuthn biometrics,
       - Network errors
     - Style with Tailwind alert classes
     - Auto-dismiss after few seconds (optional)
-  - [ ] 4.10 Ensure frontend layer tests pass
+  - [x] 4.10 Ensure frontend layer tests pass
     - Run ONLY the tests written in 4.1 (2-8 tests maximum)
     - Manually test WebAuthn flows on actual devices:
       - iOS Safari with Face ID/Touch ID

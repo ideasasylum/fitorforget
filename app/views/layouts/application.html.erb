@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= content_for(:title) || "Fitorforget Temp" %></title>
+    <title><%= content_for(:title) || "Fit or Forget" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="application-name" content="Fitorforget Temp">
+    <meta name="application-name" content="Fit or Forget">
     <meta name="mobile-web-app-capable" content="yes">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -23,8 +23,62 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
-    <main class="container mx-auto mt-28 px-5 flex">
+  <body class="bg-gray-50">
+    <% if logged_in? %>
+      <nav class="bg-white shadow-sm border-b border-gray-200 fixed top-0 left-0 right-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="flex justify-between items-center h-16">
+            <div class="flex-shrink-0">
+              <%= link_to "Fit or Forget", root_path, class: "text-xl font-bold text-indigo-600" %>
+            </div>
+            <div class="flex items-center space-x-4">
+              <span class="text-sm text-gray-600 hidden sm:inline"><%= current_user.email %></span>
+              <%= button_to "Log out",
+                logout_path,
+                method: :delete,
+                class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200",
+                form: { data: { turbo_confirm: "Are you sure you want to log out?" } } %>
+            </div>
+          </div>
+        </div>
+      </nav>
+    <% end %>
+
+    <% if flash[:notice] %>
+      <div class="<%= logged_in? ? 'mt-16' : '' %> mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-4">
+        <div class="rounded-md bg-green-50 p-4 border border-green-200">
+          <div class="flex">
+            <div class="flex-shrink-0">
+              <svg class="h-5 w-5 text-green-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+              </svg>
+            </div>
+            <div class="ml-3">
+              <p class="text-sm font-medium text-green-800"><%= flash[:notice] %></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+    <% if flash[:alert] %>
+      <div class="<%= logged_in? ? 'mt-16' : '' %> mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-4">
+        <div class="rounded-md bg-red-50 p-4 border border-red-200">
+          <div class="flex">
+            <div class="flex-shrink-0">
+              <svg class="h-5 w-5 text-red-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+              </svg>
+            </div>
+            <div class="ml-3">
+              <p class="text-sm font-medium text-red-800"><%= flash[:alert] %></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+    <main class="<%= logged_in? ? 'mt-16' : '' %> container mx-auto px-5 flex">
       <%= yield %>
     </main>
   </body>
