@@ -29,7 +29,7 @@
 
         <!-- Add Exercise Form (Initially hidden) -->
         <div id="exercise-form" class="mb-6 bg-gray-50 rounded-lg p-6 hidden">
-          <%= render 'exercises/form', program: @program, exercise: @program.exercises.build %>
+          <%= render 'exercises/form', program: @program, exercise: Exercise.new(program: @program) %>
         </div>
 
         <!-- Exercises List -->
