@@ -1,10 +1,18 @@
 class ExercisesController < ApplicationController
   before_action :require_authentication
   before_action :set_program_and_authorize, only: [:new, :create]
-  before_action :set_exercise_and_authorize, only: [:update, :destroy, :move]
+  before_action :set_exercise_and_authorize, only: [:show, :edit, :update, :destroy, :move]
 
   def new
     @exercise = @program.exercises.build
+  end
+
+  def show
+    # @exercise and @program are set by before_action
+  end
+
+  def edit
+    # @exercise and @program are set by before_action
   end
 
   def create

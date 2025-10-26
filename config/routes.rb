@@ -27,8 +27,8 @@ Rails.application.routes.draw do
     end
   end
 
-  # Shallow nested exercises routes (update and destroy)
-  resources :exercises, only: [:update, :destroy]
+  # Shallow nested exercises routes (show, edit, update and destroy)
+  resources :exercises, only: [:show, :edit, :update, :destroy]
 
   # Defines the root path route ("/")
   root "home#index"
