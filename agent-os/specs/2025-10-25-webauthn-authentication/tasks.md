@@ -55,8 +55,8 @@ This breakdown implements passwordless authentication using WebAuthn biometrics,
 #### Task Group 2: User & Credential Models
 **Dependencies:** Task Group 1
 
-- [ ] 2.0 Complete database schema and models
-  - [ ] 2.1 Write 2-8 focused tests for User model
+- [x] 2.0 Complete database schema and models
+  - [x] 2.1 Write 2-8 focused tests for User model
     - Limit to 2-8 highly focused tests maximum
     - Test critical behaviors only:
       - Email presence validation
@@ -65,7 +65,7 @@ This breakdown implements passwordless authentication using WebAuthn biometrics,
       - webauthn_id generation on create
       - has_many credentials association
     - Skip exhaustive edge case testing
-  - [ ] 2.2 Create User model and migration
+  - [x] 2.2 Create User model and migration
     - Generate: `rails generate model User email:string webauthn_id:string`
     - Migration fields:
       - `email` (string, not null, unique, indexed)
@@ -75,12 +75,12 @@ This breakdown implements passwordless authentication using WebAuthn biometrics,
       - `add_index :users, :email, unique: true`
       - `add_null_constraint :users, :email`
       - `add_null_constraint :users, :webauthn_id`
-  - [ ] 2.3 Implement User model validations
+  - [x] 2.3 Implement User model validations
     - Validate email presence
     - Validate email uniqueness (case-insensitive)
     - Validate email format (basic: must contain @)
     - Generate webauthn_id before_create using SecureRandom.hex
-  - [ ] 2.4 Write 2-8 focused tests for Credential model
+  - [x] 2.4 Write 2-8 focused tests for Credential model
     - Limit to 2-8 highly focused tests maximum
     - Test critical behaviors only:
       - Required field validations (external_id, public_key, user_id)
@@ -88,7 +88,7 @@ This breakdown implements passwordless authentication using WebAuthn biometrics,
       - belongs_to user association
       - Default sign_count value
     - Skip exhaustive edge case testing
-  - [ ] 2.5 Create Credential model and migration
+  - [x] 2.5 Create Credential model and migration
     - Generate: `rails generate model Credential user:references external_id:string public_key:text sign_count:integer`
     - Migration fields:
       - `user_id` (foreign key, indexed, not null)
@@ -100,19 +100,19 @@ This breakdown implements passwordless authentication using WebAuthn biometrics,
     - Add database constraints:
       - `add_index :credentials, :external_id, unique: true`
       - `add_foreign_key :credentials, :users, on_delete: :cascade`
-  - [ ] 2.6 Implement Credential model validations and associations
+  - [x] 2.6 Implement Credential model validations and associations
     - Validate presence of: external_id, public_key, user_id
     - Validate uniqueness of external_id
     - belongs_to :user (required: true)
     - Set default sign_count: 0
-  - [ ] 2.7 Set up User-Credential association
+  - [x] 2.7 Set up User-Credential association
     - Add `has_many :credentials, dependent: :destroy` to User model
     - Verify association works in both directions
-  - [ ] 2.8 Run migrations and verify database schema
+  - [x] 2.8 Run migrations and verify database schema
     - Execute: `rails db:migrate`
     - Verify tables created: users, credentials, sessions
     - Verify indexes and constraints applied correctly
-  - [ ] 2.9 Ensure database layer tests pass
+  - [x] 2.9 Ensure database layer tests pass
     - Run ONLY the tests written in 2.1 and 2.4 (6-16 tests maximum)
     - Verify all validations work correctly
     - Verify associations function properly
