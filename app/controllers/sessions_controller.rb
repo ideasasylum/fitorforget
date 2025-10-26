@@ -18,7 +18,8 @@ class SessionsController < ApplicationController
       return
     end
 
-    user = User.find_by(email: email)
+    # BUG FIX: Use case-insensitive lookup to find existing users
+    user = User.find_by_email(email)
 
     if user
       # Existing user - generate authentication challenge
@@ -140,8 +141,8 @@ class SessionsController < ApplicationController
   end
 
   def handle_authentication(email, credential_response)
-    # Find user
-    user = User.find_by(email: email)
+    # BUG FIX: Use case-insensitive lookup to find user
+    user = User.find_by_email(email)
     raise "User not found" unless user
 
     # Verify the credential

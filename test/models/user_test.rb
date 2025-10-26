@@ -46,4 +46,42 @@ class UserTest < ActiveSupport::TestCase
       user.destroy
     end
   end
+
+  # NEW TEST: Email normalization callback
+  test "should normalize email to lowercase before validation" do
+    user = User.create!(email: "Test@Example.COM")
+    assert_equal "test@example.com", user.email
+  end
+
+  # NEW TEST: Email normalization with whitespace
+  test "should strip whitespace from email before validation" do
+    user = User.create!(email: "  test@example.com  ")
+    assert_equal "test@example.com", user.email
+  end
+
+  # NEW TEST: Case-insensitive class method
+  test "find_by_email should work case-insensitively" do
+    user = User.create!(email: "test@example.com")
+
+    found_lowercase = User.find_by_email("test@example.com")
+    assert_equal user.id, found_lowercase.id
+
+    found_uppercase = User.find_by_email("TEST@EXAMPLE.COM")
+    assert_equal user.id, found_uppercase.id
+
+    found_mixed = User.find_by_email("Test@Example.Com")
+    assert_equal user.id, found_mixed.id
+  end
+
+  # NEW TEST: find_by_email returns nil for non-existent email
+  test "find_by_email should return nil for non-existent email" do
+    result = User.find_by_email("nonexistent@example.com")
+    assert_nil result
+  end
+
+  # NEW TEST: find_by_email handles blank email
+  test "find_by_email should return nil for blank email" do
+    assert_nil User.find_by_email("")
+    assert_nil User.find_by_email(nil)
+  end
 end
