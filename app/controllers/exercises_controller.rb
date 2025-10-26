@@ -5,10 +5,6 @@ class ExercisesController < ApplicationController
 
   def new
     @exercise = @program.exercises.build
-    respond_to do |format|
-      format.turbo_stream
-      format.html { redirect_to @program }
-    end
   end
 
   def create

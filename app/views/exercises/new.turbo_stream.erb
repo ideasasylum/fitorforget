@@ -1,7 +1,0 @@
-<%= turbo_stream.replace "exercise-form-frame" do %>
-  <%= turbo_frame_tag "exercise-form-frame" do %>
-    <div class="mb-6 bg-gray-50 rounded-lg p-6">
-      <%= render 'exercises/form', program: @program, exercise: @exercise %>
-    </div>
-  <% end %>
-<% end %>
