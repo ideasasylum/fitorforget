@@ -10,7 +10,7 @@ This roadmap outlines the feature development sequence for Fit or Forget, ordere
 
 2. [x] **Exercise Program CRUD** — Build the core Program model and controller with full CRUD operations. Users can create, edit, view, and delete exercise programs. Each program includes title, description, and UUID generation for sharing. `M`
 
-3. [ ] **Exercise Management within Programs** — Create the Exercise model with belongs_to relationship to Program. Users can add, edit, reorder, and remove exercises within a program. Each exercise includes name, repeat count (e.g., "3x"), video URL, and formatted description field. `M`
+3. [x] **Exercise Management within Programs** — Create the Exercise model with belongs_to relationship to Program. Users can add, edit, reorder, and remove exercises within a program. Each exercise includes name, repeat count (e.g., "3x"), video URL, and formatted description field. `M`
 
 4. [ ] **Public Program Viewing via UUID** — Implement public program access through UUID-based routes (e.g., /programs/:uuid). Anonymous users can view full program details including all exercises without authentication. UUID sharing system allows instant access via link. `S`
 

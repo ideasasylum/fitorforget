@@ -1,0 +1,84 @@
+<%= form_with model: exercise, url: exercise.new_record? ? program_exercises_path(program) : exercise_path(exercise), class: "space-y-4" do |f| %>
+  <% if exercise.errors.any? %>
+    <div class="rounded-md bg-red-50 p-4 border border-red-200">
+      <div class="flex">
+        <div class="flex-shrink-0">
+          <svg class="h-5 w-5 text-red-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+          </svg>
+        </div>
+        <div class="ml-3">
+          <h3 class="text-sm font-medium text-red-800">
+            <%= pluralize(exercise.errors.count, "error") %> prohibited this exercise from being saved:
+          </h3>
+          <ul class="mt-2 text-sm text-red-700 list-disc list-inside">
+            <% exercise.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <div>
+    <%= f.label :name, "Exercise Name", class: "block text-sm font-medium text-gray-700 mb-2" %>
+    <%= f.text_field :name,
+          required: true,
+          placeholder: "e.g., Push-ups, Squats, Plank",
+          class: "appearance-none rounded-lg block w-full px-4 py-3 border #{exercise.errors[:name].any? ? 'border-red-300' : 'border-gray-300'} placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-base" %>
+    <% if exercise.errors[:name].any? %>
+      <p class="mt-1 text-sm text-red-600">
+        <%= exercise.errors.full_messages_for(:name).join(', ') %>
+      </p>
+    <% end %>
+  </div>
+
+  <div>
+    <%= f.label :repeat_count, "Repeat Count", class: "block text-sm font-medium text-gray-700 mb-2" %>
+    <%= f.number_field :repeat_count,
+          required: true,
+          min: 1,
+          inputmode: "numeric",
+          pattern: "[0-9]*",
+          placeholder: "e.g., 10, 15, 20",
+          class: "appearance-none rounded-lg block w-full px-4 py-3 border #{exercise.errors[:repeat_count].any? ? 'border-red-300' : 'border-gray-300'} placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-base" %>
+    <% if exercise.errors[:repeat_count].any? %>
+      <p class="mt-1 text-sm text-red-600">
+        <%= exercise.errors.full_messages_for(:repeat_count).join(', ') %>
+      </p>
+    <% end %>
+  </div>
+
+  <div>
+    <%= f.label :video_url, "Video URL (optional)", class: "block text-sm font-medium text-gray-700 mb-2" %>
+    <%= f.url_field :video_url,
+          placeholder: "https://youtube.com/watch?v=...",
+          class: "appearance-none rounded-lg block w-full px-4 py-3 border #{exercise.errors[:video_url].any? ? 'border-red-300' : 'border-gray-300'} placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-base" %>
+    <% if exercise.errors[:video_url].any? %>
+      <p class="mt-1 text-sm text-red-600">
+        <%= exercise.errors.full_messages_for(:video_url).join(', ') %>
+      </p>
+    <% end %>
+  </div>
+
+  <div>
+    <%= f.label :description, "Description (optional)", class: "block text-sm font-medium text-gray-700 mb-2" %>
+    <%= f.rich_text_area :description,
+          class: "rounded-lg" %>
+    <% if exercise.errors[:description].any? %>
+      <p class="mt-1 text-sm text-red-600">
+        <%= exercise.errors.full_messages_for(:description).join(', ') %>
+      </p>
+    <% end %>
+  </div>
+
+  <div class="flex gap-3">
+    <%= f.submit (exercise.new_record? ? "Add Exercise" : "Update Exercise"), class: "flex-1 py-3 px-4 border border-transparent text-base font-medium rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors min-h-[44px]" %>
+    <% unless exercise.new_record? %>
+      <button type="button" data-action="click->drag#cancelEdit" class="flex-1 py-3 px-4 border border-gray-300 text-base font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors min-h-[44px]">
+        Cancel
+      </button>
+    <% end %>
+  </div>
+<% end %>

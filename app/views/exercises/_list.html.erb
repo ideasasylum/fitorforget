@@ -1,0 +1,5 @@
+<div id="exercises-list">
+  <% program.exercises.each do |exercise| %>
+    <%= render 'exercises/exercise', exercise: exercise %>
+  <% end %>
+</div>

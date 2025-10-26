@@ -1,0 +1,3 @@
+<%= turbo_stream.replace "exercise-#{@exercise.id}" do %>
+  <%= render 'exercises/exercise', exercise: @exercise %>
+<% end %>

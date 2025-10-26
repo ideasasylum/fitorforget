@@ -18,8 +18,17 @@ Rails.application.routes.draw do
   post   "/signin/verify",    to: "sessions#handle_authentication", as: :verify_signin
   delete "/logout",           to: "sessions#destroy",            as: :logout
 
-  # Programs routes
-  resources :programs
+  # Programs routes with nested exercises
+  resources :programs do
+    resources :exercises, only: [:create], shallow: true do
+      member do
+        patch :move
+      end
+    end
+  end
+
+  # Shallow nested exercises routes (update and destroy)
+  resources :exercises, only: [:update, :destroy]
 
   # Defines the root path route ("/")
   root "home#index"
