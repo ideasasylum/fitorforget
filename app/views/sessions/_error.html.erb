@@ -1,4 +1,7 @@
-<%= turbo_frame_tag "auth_flow" do %>
+<% frame_id = flow_type == "signup" ? "signup_flow" : "signin_flow" %>
+<% back_path = flow_type == "signup" ? signup_path : signin_path %>
+
+<%= turbo_frame_tag frame_id do %>
   <div class="mt-8 space-y-6">
     <div class="rounded-md bg-red-50 p-4">
       <div class="flex">
@@ -16,7 +19,7 @@
     </div>
 
     <div class="text-center">
-      <a href="<%= auth_path %>" class="text-sm text-indigo-600 hover:text-indigo-500">
+      <a href="<%= back_path %>" class="text-sm text-indigo-600 hover:text-indigo-500">
         Try again
       </a>
     </div>

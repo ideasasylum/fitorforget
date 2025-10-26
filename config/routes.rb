@@ -10,10 +10,13 @@ Rails.application.routes.draw do
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
   # Authentication routes
-  get    "/auth",        to: "sessions#new",     as: :auth
-  post   "/auth/check",  to: "sessions#check",   as: :auth_check
-  post   "/auth/verify", to: "sessions#verify",  as: :auth_verify
-  delete "/logout",      to: "sessions#destroy", as: :logout
+  get    "/signup",           to: "sessions#new_signup",         as: :signup
+  post   "/signup",           to: "sessions#create_signup",      as: :create_signup
+  post   "/signup/verify",    to: "sessions#handle_registration", as: :verify_signup
+  get    "/signin",           to: "sessions#new_signin",         as: :signin
+  post   "/signin",           to: "sessions#create_signin",      as: :create_signin
+  post   "/signin/verify",    to: "sessions#handle_authentication", as: :verify_signin
+  delete "/logout",           to: "sessions#destroy",            as: :logout
 
   # Defines the root path route ("/")
   root "home#index"

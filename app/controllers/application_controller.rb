@@ -24,11 +24,11 @@ class ApplicationController < ActionController::Base
   end
 
   # Before action to require authentication
-  # Task 3.8: Store return_to path before redirecting
+  # Store return_to path before redirecting
   def require_authentication
     unless logged_in?
       session[:return_to] = request.fullpath
-      redirect_to auth_path, alert: "Please sign in to continue"
+      redirect_to signin_path, alert: "Please sign in to continue"
     end
   end
 end

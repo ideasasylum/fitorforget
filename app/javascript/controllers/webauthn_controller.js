@@ -6,7 +6,8 @@ export default class extends Controller {
   static values = {
     options: Object,
     email: String,
-    flow: String // "registration" or "authentication"
+    flow: String, // "registration" or "authentication"
+    verifyUrl: String // URL to submit credential to
   }
 
   connect() {
@@ -57,7 +58,7 @@ export default class extends Controller {
       const credentialResponse = this.encodeCredentialForRegistration(credential)
 
       // Submit to backend
-      await this.submitCredential(credentialResponse, "registration")
+      await this.submitCredential(credentialResponse)
     } catch (error) {
       this.hideLoading()
       this.handleRegistrationError(error)
@@ -87,7 +88,7 @@ export default class extends Controller {
       const credentialResponse = this.encodeCredentialForAuthentication(credential)
 
       // Submit to backend
-      await this.submitCredential(credentialResponse, "authentication")
+      await this.submitCredential(credentialResponse)
     } catch (error) {
       this.hideLoading()
       this.handleAuthenticationError(error)
@@ -150,11 +151,11 @@ export default class extends Controller {
     }
   }
 
-  async submitCredential(credentialResponse, flowType) {
+  async submitCredential(credentialResponse) {
     // Create form and submit via Turbo
     const form = document.createElement("form")
     form.method = "POST"
-    form.action = "/auth/verify"
+    form.action = this.verifyUrlValue
 
     // Add CSRF token
     const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content
@@ -172,13 +173,6 @@ export default class extends Controller {
     emailInput.name = "email"
     emailInput.value = this.emailValue
     form.appendChild(emailInput)
-
-    // Add flow type
-    const flowInput = document.createElement("input")
-    flowInput.type = "hidden"
-    flowInput.name = "flow_type"
-    flowInput.value = flowType
-    form.appendChild(flowInput)
 
     // Add credential response as JSON
     const credentialInput = document.createElement("input")
