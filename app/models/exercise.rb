@@ -1,7 +1,6 @@
 class Exercise < ApplicationRecord
   # Associations
   belongs_to :program
-  has_rich_text :description
 
   # Validations
   validates :name, presence: true

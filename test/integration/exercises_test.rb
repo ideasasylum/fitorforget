@@ -37,17 +37,15 @@ class ExercisesTest < ActionDispatch::IntegrationTest
     assert_equal "https://youtube.com/watch?v=test", exercise.video_url
   end
 
-  test "exercise with rich text description" do
+  test "exercise with markdown description" do
     exercise = @program.exercises.create!(
       name: "Plank",
       repeat_count: 60,
-      position: 1
+      position: 1,
+      description: "Hold for 60 seconds. Focus on keeping your back straight."
     )
 
-    exercise.description = "Hold for 60 seconds. Focus on keeping your back straight."
-    exercise.save!
-
-    assert_includes exercise.description.to_plain_text, "Hold for 60 seconds"
+    assert_includes exercise.description, "Hold for 60 seconds"
   end
 
   test "deleting program deletes all exercises" do

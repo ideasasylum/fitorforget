@@ -50,9 +50,8 @@ class ExerciseTest < ActiveSupport::TestCase
     assert exercise.valid?
   end
 
-  test "should have rich_text description" do
-    exercise = @program.exercises.create!(name: "Sit-ups", repeat_count: 50, position: 1)
-    exercise.description = "Focus on form and breathing"
-    assert_equal "Focus on form and breathing", exercise.description.to_plain_text.strip
+  test "should have markdown description" do
+    exercise = @program.exercises.create!(name: "Sit-ups", repeat_count: 50, position: 1, description: "Focus on form and breathing")
+    assert_equal "Focus on form and breathing", exercise.description
   end
 end

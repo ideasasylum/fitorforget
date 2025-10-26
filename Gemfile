@@ -25,6 +25,9 @@ gem "jbuilder"
 # WebAuthn passwordless authentication
 gem "webauthn"
 
+# Markdown rendering
+gem "redcarpet"
+
 # Database-backed session store for indefinite sessions
 gem "activerecord-session_store"
 

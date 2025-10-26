@@ -30,7 +30,7 @@
 
           <% if exercise.description.present? %>
             <div class="prose prose-sm max-w-none mt-3">
-              <%= exercise.description %>
+              <%= markdown(exercise.description) %>
             </div>
           <% end %>
         </div>
