@@ -136,8 +136,8 @@ This breakdown implements passwordless authentication using WebAuthn biometrics,
 #### Task Group 3: Authentication Controllers & Routes
 **Dependencies:** Task Group 2
 
-- [ ] 3.0 Complete backend authentication logic
-  - [ ] 3.1 Write 2-8 focused tests for SessionsController
+- [x] 3.0 Complete backend authentication logic
+  - [x] 3.1 Write 2-8 focused tests for SessionsController
     - Limit to 2-8 highly focused tests maximum
     - Test critical controller actions only:
       - GET /auth renders auth form
@@ -146,7 +146,7 @@ This breakdown implements passwordless authentication using WebAuthn biometrics,
       - POST /auth/verify creates session on valid credential
       - DELETE /logout clears session and redirects
     - Skip exhaustive scenarios and edge cases
-  - [ ] 3.2 Configure authentication routes
+  - [x] 3.2 Configure authentication routes
     - Add to `config/routes.rb`:
       - `get '/auth', to: 'sessions#new', as: :auth`
       - `post '/auth/check', to: 'sessions#check', as: :auth_check`
@@ -154,13 +154,13 @@ This breakdown implements passwordless authentication using WebAuthn biometrics,
       - `delete '/logout', to: 'sessions#destroy', as: :logout`
     - Follow RESTful conventions
     - Use named routes for clarity
-  - [ ] 3.3 Create SessionsController with new action
+  - [x] 3.3 Create SessionsController with new action
     - Generate: `rails generate controller Sessions`
     - Implement `new` action:
       - Render unified auth form
       - Wrap in Turbo Frame: `turbo_frame_tag "auth_flow"`
       - Simple form with email input only
-  - [ ] 3.4 Implement SessionsController#check action
+  - [x] 3.4 Implement SessionsController#check action
     - Accept email parameter
     - Validate email format (basic @ check)
     - Check if User.exists?(email: params[:email])
@@ -173,7 +173,7 @@ This breakdown implements passwordless authentication using WebAuthn biometrics,
       - Generate WebAuthn authentication challenge
       - Respond with Turbo Frame containing authentication UI + challenge data
     - Use data attributes to pass challenge to Stimulus controller
-  - [ ] 3.5 Implement SessionsController#verify action
+  - [x] 3.5 Implement SessionsController#verify action
     - Handle WebAuthn credential response from client
     - For registration flow:
       - Verify WebAuthn credential using webauthn gem
@@ -191,11 +191,11 @@ This breakdown implements passwordless authentication using WebAuthn biometrics,
       - Regenerate session ID for security
       - Redirect to return_to path or root
     - Handle verification failures with clear error messages
-  - [ ] 3.6 Implement SessionsController#destroy action
+  - [x] 3.6 Implement SessionsController#destroy action
     - Clear session: `reset_session`
     - Set flash message: "You have been logged out"
     - Redirect to root_path
-  - [ ] 3.7 Add authentication helpers to ApplicationController
+  - [x] 3.7 Add authentication helpers to ApplicationController
     - Create helper_method: `current_user`
       - Memoize: `@current_user ||= User.find_by(id: session[:user_id])`
       - Return nil if session[:user_id] not present
@@ -205,12 +205,12 @@ This breakdown implements passwordless authentication using WebAuthn biometrics,
       - Redirect to auth_path unless logged_in?
       - Store return_to in session before redirect
       - Set flash alert: "Please sign in to continue"
-  - [ ] 3.8 Implement return_to redirect logic
+  - [x] 3.8 Implement return_to redirect logic
     - In require_authentication: `session[:return_to] = request.fullpath`
     - In verify action after successful auth:
       - `redirect_to session.delete(:return_to) || root_path`
     - Clear return_to after use to prevent stale redirects
-  - [ ] 3.9 Ensure backend layer tests pass
+  - [x] 3.9 Ensure backend layer tests pass
     - Run ONLY the tests written in 3.1 (2-8 tests maximum)
     - Verify critical controller flows work
     - Verify session creation and destruction
