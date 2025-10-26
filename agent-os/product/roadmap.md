@@ -6,7 +6,7 @@ This roadmap outlines the feature development sequence for Fit or Forget, ordere
 
 ---
 
-1. [ ] **User Authentication & Account Management** — Implement WebAuthn passwordless authentication for user sign-up, login, and session management using device biometrics (Face ID, Touch ID, fingerprint). Users can create accounts to own programs and track history. Requires webauthn gem and credential storage. `M`
+1. [x] **User Authentication & Account Management** — Implement WebAuthn passwordless authentication for user sign-up, login, and session management using device biometrics (Face ID, Touch ID, fingerprint). Users can create accounts to own programs and track history. Requires webauthn gem and credential storage. `M`
 
 2. [ ] **Exercise Program CRUD** — Build the core Program model and controller with full CRUD operations. Users can create, edit, view, and delete exercise programs. Each program includes title, description, and UUID generation for sharing. `M`
 
