@@ -2,6 +2,4 @@
   <%= render 'exercises/exercise', exercise: @exercise %>
 <% end %>
 
-<%= turbo_stream.replace "exercise-form" do %>
-  <%= render 'exercises/form', program: @program, exercise: @program.exercises.build %>
-<% end %>
+<%= turbo_stream.replace "exercise-form-frame", "" %>

@@ -1,7 +1,15 @@
 class ExercisesController < ApplicationController
   before_action :require_authentication
-  before_action :set_program_and_authorize, only: [:create]
+  before_action :set_program_and_authorize, only: [:new, :create]
   before_action :set_exercise_and_authorize, only: [:update, :destroy, :move]
+
+  def new
+    @exercise = @program.exercises.build
+    respond_to do |format|
+      format.turbo_stream
+      format.html { redirect_to @program }
+    end
+  end
 
   def create
     @exercise = @program.exercises.build(exercise_params)

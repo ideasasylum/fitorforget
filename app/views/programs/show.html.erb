@@ -19,18 +19,16 @@
       <div class="mt-8 pt-8 border-t border-gray-200">
         <div class="flex items-center justify-between mb-6">
           <h2 class="text-2xl font-bold text-gray-900">Exercises</h2>
-          <button type="button" id="toggle-exercise-form" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors min-h-[44px]">
+          <%= link_to new_program_exercise_path(@program), data: { turbo_frame: "exercise-form-frame" }, class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors min-h-[44px]" do %>
             <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
             </svg>
             Add Exercise
-          </button>
+          <% end %>
         </div>
 
-        <!-- Add Exercise Form (Initially hidden) -->
-        <div id="exercise-form" class="mb-6 bg-gray-50 rounded-lg p-6 hidden">
-          <%= render 'exercises/form', program: @program, exercise: Exercise.new(program: @program) %>
-        </div>
+        <!-- Exercise Form Frame -->
+        <%= turbo_frame_tag "exercise-form-frame" %>
 
         <!-- Exercises List -->
         <% if @program.exercises.any? %>
@@ -55,17 +53,3 @@
     </div>
   </div>
 </div>
-
-<script>
-  // Toggle exercise form visibility
-  document.addEventListener('turbo:load', function() {
-    const toggleButton = document.getElementById('toggle-exercise-form');
-    const exerciseForm = document.getElementById('exercise-form');
-
-    if (toggleButton && exerciseForm) {
-      toggleButton.addEventListener('click', function() {
-        exerciseForm.classList.toggle('hidden');
-      });
-    }
-  });
-</script>

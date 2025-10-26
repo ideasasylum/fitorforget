@@ -1,4 +1,12 @@
-<%= form_with model: exercise, url: exercise.new_record? ? program_exercises_path(program) : exercise_path(exercise), class: "space-y-4" do |f| %>
+<div class="relative">
+  <!-- Close button -->
+  <%= link_to program_path(program), data: { turbo_frame: "exercise-form-frame" }, class: "absolute -top-2 -right-2 p-2 text-gray-400 hover:text-gray-600 bg-white rounded-full shadow-sm border border-gray-200 min-w-[44px] min-h-[44px] flex items-center justify-center z-10" do %>
+    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+    </svg>
+  <% end %>
+
+  <%= form_with model: exercise, url: exercise.new_record? ? program_exercises_path(program) : exercise_path(exercise), class: "space-y-4" do |f| %>
   <% if exercise.errors.any? %>
     <div class="rounded-md bg-red-50 p-4 border border-red-200">
       <div class="flex">
@@ -81,4 +89,5 @@
       </button>
     <% end %>
   </div>
-<% end %>
+  <% end %>
+</div>
