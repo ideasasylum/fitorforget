@@ -20,7 +20,7 @@ Rails.application.routes.draw do
 
   # Programs routes with nested exercises
   resources :programs do
-    resources :exercises, only: [:create], shallow: true do
+    resources :exercises, only: [:new, :create], shallow: true do
       member do
         patch :move
       end
