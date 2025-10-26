@@ -3,13 +3,13 @@ require "test_helper"
 class AuthenticationFlowsTest < ActionDispatch::IntegrationTest
   # Test: Full registration flow creates user, credential, and session
   test "full registration flow creates user credential and session" do
-    # Visit auth page
-    get auth_path
+    # Visit signup page
+    get signup_path
     assert_response :success
 
     # Submit email for new user
     email = "newuser@example.com"
-    post auth_check_path, params: { email: email }
+    post create_signup_path, params: { email: email }
     assert_response :success
 
     # Verify registration challenge is generated
@@ -38,7 +38,7 @@ class AuthenticationFlowsTest < ActionDispatch::IntegrationTest
     )
 
     # Try to sign in with different casing (THIS TESTS THE BUG FIX)
-    post auth_check_path, params: { email: "Existing@Example.com" }
+    post create_signin_path, params: { email: "Existing@Example.com" }
     assert_response :success
 
     # The system should recognize this as an existing user and generate auth challenge
@@ -78,8 +78,8 @@ class AuthenticationFlowsTest < ActionDispatch::IntegrationTest
   test "session persists across multiple requests" do
     user = User.create!(email: "persistent@example.com")
 
-    # Visit auth page and set session
-    get auth_path
+    # Visit signup page and set session
+    get signup_path
     assert_response :success
 
     # Set user_id in session
@@ -88,7 +88,7 @@ class AuthenticationFlowsTest < ActionDispatch::IntegrationTest
 
     # Make another request in the same session
     # Use a simple GET that doesn't reset session
-    get auth_path
+    get signup_path
 
     # Note: In integration tests, sessions can behave differently
     # This test verifies that the session mechanism exists
@@ -100,7 +100,7 @@ class AuthenticationFlowsTest < ActionDispatch::IntegrationTest
     user = User.create!(email: "logout@example.com")
 
     # Simulate logged in session
-    get auth_path
+    get signup_path
     session[:user_id] = user.id
     assert_not_nil session[:user_id]
 
@@ -118,20 +118,20 @@ class AuthenticationFlowsTest < ActionDispatch::IntegrationTest
   # Test: require_authentication redirects unauthenticated users
   test "require_authentication helper works correctly" do
     # This test verifies the authentication helper exists and works
-    # For now, we'll test the auth page itself which should be accessible
+    # For now, we'll test the signup page itself which should be accessible
 
     # Simulate no session
-    get auth_path
+    get signup_path
     assert_nil session[:user_id]
 
-    # The auth page itself should be accessible
+    # The signup page itself should be accessible
     assert_response :success
   end
 
   # Test: return_to redirects after successful authentication
   test "return_to session value can be set for redirect after auth" do
     # Set a return_to path in session
-    get auth_path
+    get signup_path
     session[:return_to] = "/programs/123"
 
     assert_equal "/programs/123", session[:return_to]
@@ -143,7 +143,7 @@ class AuthenticationFlowsTest < ActionDispatch::IntegrationTest
 
   # Test: Email validation prevents invalid emails
   test "email validation prevents invalid email format" do
-    post auth_check_path, params: { email: "notanemail" }
+    post create_signup_path, params: { email: "notanemail" }
     assert_response :success
 
     # Should return error, not create challenge
@@ -152,7 +152,7 @@ class AuthenticationFlowsTest < ActionDispatch::IntegrationTest
 
   # Test: Email validation prevents empty emails
   test "email validation prevents empty email" do
-    post auth_check_path, params: { email: "" }
+    post create_signup_path, params: { email: "" }
     assert_response :success
 
     # Should return error, not create challenge
@@ -172,17 +172,18 @@ class AuthenticationFlowsTest < ActionDispatch::IntegrationTest
 
     initial_user_count = User.count
 
-    # Try to check auth with same email in different case
-    post auth_check_path, params: { email: "USER@EXAMPLE.COM" }
+    # Try to sign up with same email in different case
+    post create_signup_path, params: { email: "USER@EXAMPLE.COM" }
     assert_response :success
 
-    # Should generate AUTHENTICATION challenge, not registration
-    # The pending_webauthn_id should be nil (only set for registration)
+    # Should NOT generate a registration challenge (should show error instead)
+    # The pending_webauthn_id should be nil (not set because we're showing error)
     assert_nil session[:pending_webauthn_id],
       "BUG: System is generating registration challenge for existing user with different email case!"
 
-    # Should recognize existing user
-    assert_equal "user@example.com", session[:pending_email]
+    # Should NOT set pending_email (because we're showing error)
+    assert_nil session[:pending_email],
+      "BUG: System set pending_email when it should have shown an error!"
 
     # No new user should be created
     assert_equal initial_user_count, User.count,

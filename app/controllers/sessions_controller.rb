@@ -71,63 +71,7 @@ class SessionsController < ApplicationController
     redirect_to root_path, notice: "You have been logged out"
   end
 
-  private
-
-  def generate_registration_challenge(email)
-    # Generate a temporary webauthn_id for the challenge
-    webauthn_id = SecureRandom.hex(16)
-
-    # Generate WebAuthn registration options
-    options = WebAuthn::Credential.options_for_create(
-      user: {
-        id: webauthn_id,
-        name: email,
-        display_name: email
-      },
-      exclude: []
-    )
-
-    # Store challenge and email in session for verification
-    session[:webauthn_challenge] = options.challenge
-    session[:pending_email] = email
-    session[:pending_webauthn_id] = webauthn_id
-    session[:flow_type] = "registration"
-
-    render turbo_stream: turbo_stream.replace(
-      "signup_flow",
-      partial: "sessions/signup_challenge",
-      locals: {
-        email: email,
-        options: options.as_json
-      }
-    )
-  end
-
-  def generate_authentication_challenge(user)
-    # Get all credentials for this user
-    credentials = user.credentials.pluck(:external_id)
-
-    # Generate WebAuthn authentication options
-    options = WebAuthn::Credential.options_for_get(
-      allow: credentials
-    )
-
-    # Store challenge and email in session for verification
-    session[:webauthn_challenge] = options.challenge
-    session[:pending_email] = user.email
-    session[:flow_type] = "authentication"
-
-    render turbo_stream: turbo_stream.replace(
-      "signin_flow",
-      partial: "sessions/signin_challenge",
-      locals: {
-        email: user.email,
-        options: options.as_json
-      }
-    )
-  end
-
-  # These methods are called by the Stimulus controller via form submission
+  # Verification Actions (called by Stimulus controller via form submission)
   def handle_registration
     begin
       email = params[:email]&.strip&.downcase
@@ -205,6 +149,62 @@ class SessionsController < ApplicationController
       Rails.logger.error "Authentication failed: #{e.message}"
       redirect_to signin_path, alert: "Authentication failed. Please try again."
     end
+  end
+
+  private
+
+  def generate_registration_challenge(email)
+    # Generate a temporary webauthn_id for the challenge
+    webauthn_id = SecureRandom.hex(16)
+
+    # Generate WebAuthn registration options
+    options = WebAuthn::Credential.options_for_create(
+      user: {
+        id: webauthn_id,
+        name: email,
+        display_name: email
+      },
+      exclude: []
+    )
+
+    # Store challenge and email in session for verification
+    session[:webauthn_challenge] = options.challenge
+    session[:pending_email] = email
+    session[:pending_webauthn_id] = webauthn_id
+    session[:flow_type] = "registration"
+
+    render turbo_stream: turbo_stream.replace(
+      "signup_flow",
+      partial: "sessions/signup_challenge",
+      locals: {
+        email: email,
+        options: options.as_json
+      }
+    )
+  end
+
+  def generate_authentication_challenge(user)
+    # Get all credentials for this user
+    credentials = user.credentials.pluck(:external_id)
+
+    # Generate WebAuthn authentication options
+    options = WebAuthn::Credential.options_for_get(
+      allow: credentials
+    )
+
+    # Store challenge and email in session for verification
+    session[:webauthn_challenge] = options.challenge
+    session[:pending_email] = user.email
+    session[:flow_type] = "authentication"
+
+    render turbo_stream: turbo_stream.replace(
+      "signin_flow",
+      partial: "sessions/signin_challenge",
+      locals: {
+        email: user.email,
+        options: options.as_json
+      }
+    )
   end
 
   def create_user_session(user)
