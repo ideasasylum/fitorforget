@@ -1,0 +1,35 @@
+<%
+# Status Badge Component
+#
+# Displays a colored status badge
+#
+# @param status [String, Symbol] Status type - 'completed', 'in_progress', 'not_started', 'skipped'
+# @param text [String, nil] Custom text (optional, defaults to status.humanize)
+# @param show_icon [Boolean] Show checkmark icon for completed status (default: false)
+
+status = status.to_s
+text ||= status.humanize
+show_icon ||= false
+
+badge_classes = case status
+when 'completed'
+  "inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800"
+when 'in_progress'
+  "inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-yellow-100 text-yellow-800"
+when 'skipped'
+  "inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-800"
+when 'not_started', 'not_done'
+  "inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-800"
+else
+  "inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-800"
+end
+-%>
+
+<span class="<%= badge_classes %>">
+  <% if show_icon && status == 'completed' %>
+    <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+      <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+    </svg>
+  <% end %>
+  <%= text %>
+</span>

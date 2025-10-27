@@ -1,0 +1,49 @@
+<%
+# Empty State Component
+#
+# Displays an empty state message with optional CTA button
+#
+# @param icon [String] Icon type - 'document', 'clipboard', 'folder'
+# @param title [String] Heading text
+# @param description [String] Description text
+# @param button_text [String, nil] CTA button text (optional)
+# @param button_url [String, nil] CTA button URL (optional)
+# @param button_type [Symbol] Button type (default: :primary)
+# @param card_style [Boolean] Show white card background (default: true)
+
+icon ||= 'document'
+card_style = true if card_style.nil?
+button_type ||= :primary
+
+container_classes = if card_style
+  "bg-white rounded-lg shadow-md p-12 text-center"
+else
+  "bg-gray-50 rounded-lg p-12 text-center"
+end
+
+icon_svg = case icon
+when 'clipboard'
+  '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />'
+when 'folder'
+  '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />'
+else # 'document'
+  '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />'
+end
+-%>
+
+<div class="<%= container_classes %>">
+  <div class="max-w-md mx-auto">
+    <svg class="mx-auto h-16 w-16 text-gray-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <%= icon_svg.html_safe %>
+    </svg>
+    <h2 class="text-2xl font-bold text-gray-900 mb-2"><%= title %></h2>
+    <p class="text-gray-600 mb-6"><%= description %></p>
+    <% if button_text.present? && button_url.present? %>
+      <%= render 'shared/button',
+        text: button_text,
+        url: button_url,
+        type: button_type,
+        size: :base %>
+    <% end %>
+  </div>
+</div>

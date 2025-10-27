@@ -1,0 +1,67 @@
+<%
+# Program Card Component
+#
+# Displays a program card with title, description, and action buttons
+#
+# @param program [Program] The program object
+# @param show_actions [Boolean] Show View/Edit/Delete buttons (default: true)
+# @param show_start_workout [Boolean] Show "Start Workout" button (default: false)
+# @param show_owner_actions [Boolean] Show Edit/Delete only for owners (default: true)
+# @param truncate_length [Integer] Description truncate length (default: 150)
+
+show_actions = true if show_actions.nil?
+show_start_workout ||= false
+show_owner_actions = true if show_owner_actions.nil?
+truncate_length ||= 150
+
+is_owner = logged_in? && current_user.id == program.user_id
+-%>
+
+<div class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
+  <h3 class="text-xl font-bold text-gray-900 mb-2"><%= program.title %></h3>
+
+  <% if program.description.present? %>
+    <p class="text-gray-700 mb-4 line-clamp-3"><%= truncate(program.description, length: truncate_length) %></p>
+  <% else %>
+    <p class="text-gray-400 italic mb-4">No description</p>
+  <% end %>
+
+  <% if show_start_workout %>
+    <!-- Primary action: Start Workout -->
+    <div class="mb-3">
+      <%= render 'shared/button',
+        text: 'Start Workout',
+        url: new_workout_path(program_id: program.uuid),
+        type: :primary,
+        size: :base,
+        html_options: { class: 'w-full' } %>
+    </div>
+  <% end %>
+
+  <% if show_actions %>
+    <!-- Secondary actions -->
+    <div class="flex gap-2">
+      <%= render 'shared/button',
+        text: 'View',
+        url: program_path(program),
+        type: :secondary,
+        size: :small,
+        html_options: { class: 'flex-1' } %>
+
+      <% if !show_owner_actions || is_owner %>
+        <%= render 'shared/button',
+          text: 'Edit',
+          url: edit_program_path(program),
+          type: :indigo_secondary,
+          size: :small,
+          html_options: { class: 'flex-1' } %>
+
+        <%= button_to 'Delete',
+          program_path(program),
+          method: :delete,
+          form: { data: { turbo_confirm: "Are you sure?" } },
+          class: "flex-1 inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-red-700 bg-red-100 hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors min-h-[44px]" %>
+      <% end %>
+    </div>
+  <% end %>
+</div>

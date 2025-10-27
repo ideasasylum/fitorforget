@@ -1,0 +1,50 @@
+<%
+# Workout Card Component
+#
+# Displays a workout card with status, stats, and action buttons
+#
+# @param workout [Workout] The workout object
+# @param show_delete [Boolean] Show delete button (default: false)
+
+show_delete ||= false
+stats = workout.completion_stats
+
+# Determine status for badge
+if workout.complete?
+  status = 'completed'
+elsif workout.in_progress?
+  status = 'in_progress'
+else
+  status = 'not_started'
+end
+-%>
+
+<div class="border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow bg-white">
+  <h3 class="text-xl font-semibold text-gray-900 mb-2"><%= workout.program_title %></h3>
+
+  <p class="text-gray-600 mb-3">
+    <%= stats[:completed_count] %> of <%= stats[:total_count] %> exercises complete
+  </p>
+
+  <div class="flex items-center justify-between mb-3">
+    <%= render 'shared/status_badge', status: status %>
+
+    <% if show_delete %>
+      <%= button_to 'Delete',
+        workout_path(workout),
+        method: :delete,
+        form: { data: { turbo_confirm: "Are you sure?" } },
+        class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg text-white bg-red-600 hover:bg-red-700 transition-colors min-h-[44px]" %>
+    <% else %>
+      <%= render 'shared/button',
+        text: 'View',
+        url: workout_path(workout),
+        type: :primary,
+        size: :small %>
+    <% end %>
+  </div>
+
+  <p class="text-sm text-gray-500">
+    Created <%= time_ago_in_words(workout.created_at) %> ago
+  </p>
+</div>

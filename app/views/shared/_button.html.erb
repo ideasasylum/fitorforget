@@ -1,0 +1,88 @@
+<%
+# Button Component
+#
+# A flexible button component with multiple styles and sizes
+#
+# @param text [String] Button text
+# @param url [String, nil] Link destination (optional, makes it a link_to instead of button)
+# @param http_method [Symbol, nil] HTTP method for link_to (e.g., :delete, :post)
+# @param type [Symbol] Button type - :primary, :secondary, :success, :danger, :danger_secondary, :indigo_secondary
+# @param size [Symbol] Button size - :small, :base, :large
+# @param icon [String, nil] Icon to display (optional) - renders shared/icons partial
+# @param icon_position [Symbol] Icon position - :left or :right (default: :left)
+# @param html_options [Hash] Additional HTML options (class, data, etc.)
+# @param full_width [Boolean] Make button full width on mobile (default: false)
+
+type = local_assigns.fetch(:type, :primary)
+size = local_assigns.fetch(:size, :base)
+icon = local_assigns.fetch(:icon, nil)
+icon_position = local_assigns.fetch(:icon_position, :left)
+html_options = local_assigns.fetch(:html_options, {})
+full_width = local_assigns.fetch(:full_width, false)
+http_method = local_assigns.fetch(:http_method, nil)
+
+# Base classes
+base_classes = "inline-flex items-center justify-center border font-medium rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 transition-colors"
+
+# Size classes
+size_classes = case size
+when :small
+  "px-4 py-2 text-sm min-h-[44px]"
+when :large
+  "px-8 py-4 text-lg font-bold min-h-[44px]"
+else # :base
+  "px-6 py-3 text-base min-h-[44px]"
+end
+
+# Type/color classes
+type_classes = case type
+when :primary
+  "border-transparent text-white bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500"
+when :secondary
+  "border-gray-300 text-gray-700 bg-white hover:bg-gray-50 focus:ring-indigo-500"
+when :success
+  "border-transparent text-white bg-green-600 hover:bg-green-700 focus:ring-green-500"
+when :danger
+  "border-transparent text-white bg-red-600 hover:bg-red-700 focus:ring-red-500"
+when :danger_secondary
+  "border-transparent text-red-700 bg-red-100 hover:bg-red-200 focus:ring-red-500"
+when :indigo_secondary
+  "border-transparent text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:ring-indigo-500"
+else
+  "border-transparent text-white bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500"
+end
+
+# Full width on mobile
+width_classes = full_width ? "w-full sm:w-auto" : ""
+
+# Merge all classes
+final_classes = [base_classes, size_classes, type_classes, width_classes, html_options[:class]].compact.join(" ")
+final_html_options = html_options.except(:class).merge(class: final_classes)
+
+# Icon spacing
+icon_margin = icon_position == :left ? "mr-2" : "ml-2"
+-%>
+
+<% if url %>
+  <% link_options = final_html_options.dup %>
+  <% link_options[:method] = http_method if http_method.present? %>
+  <%= link_to url, link_options do %>
+    <% if icon && icon_position == :left %>
+      <%= render "shared/icons/#{icon}", class: "w-5 h-5 #{icon_margin}" %>
+    <% end %>
+    <%= text %>
+    <% if icon && icon_position == :right %>
+      <%= render "shared/icons/#{icon}", class: "w-5 h-5 #{icon_margin}" %>
+    <% end %>
+  <% end %>
+<% else %>
+  <button type="button" <%= tag.attributes(final_html_options) %>>
+    <% if icon && icon_position == :left %>
+      <%= render "shared/icons/#{icon}", class: "w-5 h-5 #{icon_margin}" %>
+    <% end %>
+    <%= text %>
+    <% if icon && icon_position == :right %>
+      <%= render "shared/icons/#{icon}", class: "w-5 h-5 #{icon_margin}" %>
+    <% end %>
+  </button>
+<% end %>
