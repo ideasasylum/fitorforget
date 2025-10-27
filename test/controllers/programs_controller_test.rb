@@ -25,7 +25,7 @@ class ProgramsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "create requires authentication" do
-    post programs_path, params: { program: { title: "Test" } }
+    post programs_path, params: {program: {title: "Test"}}
     assert_redirected_to signin_path
   end
 
@@ -109,7 +109,7 @@ class ProgramsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "video embeds render correctly in view" do
-    exercise = @program.exercises.create!(
+    @program.exercises.create!(
       name: "Test Exercise",
       repeat_count: 10,
       position: 1,
@@ -152,7 +152,7 @@ class ProgramsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "update requires authentication" do
-    patch program_path(@program), params: { program: { title: "Updated" } }
+    patch program_path(@program), params: {program: {title: "Updated"}}
     assert_redirected_to signin_path
   end
 

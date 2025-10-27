@@ -20,7 +20,7 @@ module ActionDispatch
     def sign_in_as(user)
       # Create a session in the database for Active Record session store
       session_id = SecureRandom.hex(16)
-      session_data = { user_id: user.id }
+      session_data = {user_id: user.id}
 
       # Create session record in database
       ActiveRecord::SessionStore::Session.create!(

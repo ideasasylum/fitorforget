@@ -46,7 +46,7 @@ class UserTest < ActiveSupport::TestCase
 
   test "should destroy associated credentials when user is destroyed" do
     user = User.create!(email: "test@example.com")
-    credential = user.credentials.create!(
+    user.credentials.create!(
       external_id: "test_credential_123",
       public_key: "test_public_key",
       sign_count: 0

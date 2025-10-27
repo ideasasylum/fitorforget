@@ -46,7 +46,7 @@ class ProgramsController < ApplicationController
   def duplicate
     @duplicated_program = @program.duplicate(current_user.id)
     redirect_to @duplicated_program, notice: "Program saved to your library"
-  rescue => e
+  rescue
     redirect_to @program, alert: "Unable to save program. Please try again."
   end
 

@@ -8,7 +8,7 @@ class DashboardViewTest < ActionDispatch::IntegrationTest
   test "should render programs section with programs" do
     sign_in_as(@user)
 
-    program = @user.programs.create!(title: "Test Program", description: "Test description")
+    @user.programs.create!(title: "Test Program", description: "Test description")
 
     get dashboard_path
     assert_response :success
@@ -20,7 +20,7 @@ class DashboardViewTest < ActionDispatch::IntegrationTest
     sign_in_as(@user)
 
     program = @user.programs.create!(title: "Test Program")
-    workout = @user.workouts.create!(program: program, program_title: "Test Program", exercises_data: [])
+    @user.workouts.create!(program: program, program_title: "Test Program", exercises_data: [])
 
     get dashboard_path
     assert_response :success

@@ -14,9 +14,9 @@ class ApplicationHelperTest < ActionView::TestCase
     result = video_embed_html(url)
 
     assert_not_nil result
-    assert_includes result, 'iframe'
-    assert_includes result, 'youtube-nocookie.com/embed/dQw4w9WgXcQ'
-    assert_includes result, 'aspect-video'
+    assert_includes result, "iframe"
+    assert_includes result, "youtube-nocookie.com/embed/dQw4w9WgXcQ"
+    assert_includes result, "aspect-video"
     assert_includes result, 'loading="lazy"'
   end
 
@@ -25,7 +25,7 @@ class ApplicationHelperTest < ActionView::TestCase
     result = video_embed_html(url)
 
     assert_not_nil result
-    assert_includes result, 'youtube-nocookie.com/embed/dQw4w9WgXcQ'
+    assert_includes result, "youtube-nocookie.com/embed/dQw4w9WgXcQ"
   end
 
   test "parses YouTube embed URL" do
@@ -33,7 +33,7 @@ class ApplicationHelperTest < ActionView::TestCase
     result = video_embed_html(url)
 
     assert_not_nil result
-    assert_includes result, 'youtube-nocookie.com/embed/dQw4w9WgXcQ'
+    assert_includes result, "youtube-nocookie.com/embed/dQw4w9WgXcQ"
   end
 
   test "parses Instagram post URL and generates embed" do
@@ -41,9 +41,9 @@ class ApplicationHelperTest < ActionView::TestCase
     result = video_embed_html(url)
 
     assert_not_nil result
-    assert_includes result, 'iframe'
-    assert_includes result, 'instagram.com/p/ABC123xyz/embed'
-    assert_includes result, 'aspect-square'
+    assert_includes result, "iframe"
+    assert_includes result, "instagram.com/p/ABC123xyz/embed"
+    assert_includes result, "aspect-square"
     assert_includes result, 'loading="lazy"'
   end
 
@@ -52,7 +52,7 @@ class ApplicationHelperTest < ActionView::TestCase
     result = video_embed_html(url)
 
     assert_not_nil result
-    assert_includes result, 'instagram.com/reel/ABC123xyz/embed'
+    assert_includes result, "instagram.com/reel/ABC123xyz/embed"
   end
 
   test "returns nil for unsupported URL" do

@@ -18,7 +18,7 @@ class Program < ApplicationRecord
 
   # Validations
   validates :title, presence: true
-  validates :title, length: { maximum: 200 }
+  validates :title, length: {maximum: 200}
 
   # Callbacks
   before_create :generate_uuid
@@ -35,14 +35,14 @@ class Program < ApplicationRecord
     ActiveRecord::Base.transaction do
       # Create new program with copied attributes
       duplicated_program = Program.new(
-        title: self.title,
-        description: self.description,
+        title: title,
+        description: description,
         user_id: new_user_id
       )
       duplicated_program.save!
 
       # Deep copy all exercises maintaining position order
-      self.exercises.order(:position).each do |exercise|
+      exercises.order(:position).each do |exercise|
         duplicated_program.exercises.create!(
           name: exercise.name,
           repeat_count: exercise.repeat_count,

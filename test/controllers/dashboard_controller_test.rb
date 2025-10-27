@@ -27,9 +27,9 @@ class DashboardControllerTest < ActionDispatch::IntegrationTest
     program3 = @user.programs.create!(title: "Program 3")
 
     # Create workouts with different dates
-    workout1 = @user.workouts.create!(program: program1, program_title: "Program 1", exercises_data: [], created_at: 3.days.ago)
-    workout2 = @user.workouts.create!(program: program2, program_title: "Program 2", exercises_data: [], created_at: 1.day.ago)
-    workout3 = @user.workouts.create!(program: program3, program_title: "Program 3", exercises_data: [], created_at: 5.days.ago)
+    @user.workouts.create!(program: program1, program_title: "Program 1", exercises_data: [], created_at: 3.days.ago)
+    @user.workouts.create!(program: program2, program_title: "Program 2", exercises_data: [], created_at: 1.day.ago)
+    @user.workouts.create!(program: program3, program_title: "Program 3", exercises_data: [], created_at: 5.days.ago)
 
     get dashboard_path
     assert_response :success
@@ -41,8 +41,8 @@ class DashboardControllerTest < ActionDispatch::IntegrationTest
     program = @user.programs.create!(title: "Test Program")
 
     # Create workouts with different dates
-    workout1 = @user.workouts.create!(program: program, program_title: "Test", exercises_data: [], created_at: 2.days.ago)
-    workout2 = @user.workouts.create!(program: program, program_title: "Test", exercises_data: [], created_at: 1.day.ago)
+    @user.workouts.create!(program: program, program_title: "Test", exercises_data: [], created_at: 2.days.ago)
+    @user.workouts.create!(program: program, program_title: "Test", exercises_data: [], created_at: 1.day.ago)
 
     get dashboard_path
     assert_response :success

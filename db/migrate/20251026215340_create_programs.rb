@@ -1,7 +1,7 @@
 class CreatePrograms < ActiveRecord::Migration[8.1]
   def change
     create_table :programs do |t|
-      t.references :user, null: false, foreign_key: { on_delete: :cascade }
+      t.references :user, null: false, foreign_key: {on_delete: :cascade}
       t.string :title, null: false
       t.text :description
       t.string :uuid, null: false

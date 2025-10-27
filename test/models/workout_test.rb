@@ -22,8 +22,8 @@ class WorkoutTest < ActiveSupport::TestCase
 
     # Create exercises with different repeat counts
     program.exercises.destroy_all
-    exercise1 = program.exercises.create!(name: "Push-ups", repeat_count: 3, position: 1, video_url: "https://youtube.com/pushups")
-    exercise2 = program.exercises.create!(name: "Squats", repeat_count: 2, position: 2, video_url: "https://youtube.com/squats")
+    program.exercises.create!(name: "Push-ups", repeat_count: 3, position: 1, video_url: "https://youtube.com/pushups")
+    program.exercises.create!(name: "Squats", repeat_count: 2, position: 2, video_url: "https://youtube.com/squats")
 
     workout = Workout.new(user: user, program: program)
     workout.initialize_from_program(program)

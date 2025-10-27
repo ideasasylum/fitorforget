@@ -18,9 +18,9 @@ class ExercisesTest < ActionDispatch::IntegrationTest
   end
 
   test "exercises are ordered by position" do
-    exercise3 = @program.exercises.create!(name: "Lunges", repeat_count: 20, position: 3)
-    exercise1 = @program.exercises.create!(name: "Push-ups", repeat_count: 10, position: 1)
-    exercise2 = @program.exercises.create!(name: "Squats", repeat_count: 15, position: 2)
+    @program.exercises.create!(name: "Lunges", repeat_count: 20, position: 3)
+    @program.exercises.create!(name: "Push-ups", repeat_count: 10, position: 1)
+    @program.exercises.create!(name: "Squats", repeat_count: 15, position: 2)
 
     exercises = @program.exercises.reload
     assert_equal ["Push-ups", "Squats", "Lunges"], exercises.pluck(:name)

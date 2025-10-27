@@ -26,7 +26,7 @@ class ExercisesController < ApplicationController
       end
     else
       respond_to do |format|
-        format.turbo_stream { render turbo_stream: turbo_stream.replace("exercise-form", partial: "exercises/form", locals: { program: @program, exercise: @exercise }) }
+        format.turbo_stream { render turbo_stream: turbo_stream.replace("exercise-form", partial: "exercises/form", locals: {program: @program, exercise: @exercise}) }
         format.html { redirect_to @program, alert: "Failed to add exercise" }
       end
     end
@@ -40,7 +40,7 @@ class ExercisesController < ApplicationController
       end
     else
       respond_to do |format|
-        format.turbo_stream { render turbo_stream: turbo_stream.replace("exercise-#{@exercise.id}", partial: "exercises/form", locals: { program: @exercise.program, exercise: @exercise }) }
+        format.turbo_stream { render turbo_stream: turbo_stream.replace("exercise-#{@exercise.id}", partial: "exercises/form", locals: {program: @exercise.program, exercise: @exercise}) }
         format.html { redirect_to @exercise.program, alert: "Failed to update exercise" }
       end
     end
@@ -77,7 +77,7 @@ class ExercisesController < ApplicationController
     end
 
     respond_to do |format|
-      format.turbo_stream { render turbo_stream: turbo_stream.replace("exercises-list", partial: "exercises/list", locals: { program: @program }) }
+      format.turbo_stream { render turbo_stream: turbo_stream.replace("exercises-list", partial: "exercises/list", locals: {program: @program}) }
       format.json { head :ok }
     end
   end

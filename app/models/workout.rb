@@ -71,7 +71,7 @@ class Workout < ApplicationRecord
 
   # Returns hash with completion statistics
   def completion_stats
-    return { completed_count: 0, skipped_count: 0, total_count: 0 } if exercises_data.blank?
+    return {completed_count: 0, skipped_count: 0, total_count: 0} if exercises_data.blank?
 
     {
       completed_count: exercises_data.count { |e| e["completed"] },

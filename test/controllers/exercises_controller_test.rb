@@ -10,12 +10,12 @@ class ExercisesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "create requires authentication" do
-    post program_exercises_path(@program), params: { exercise: { name: "Test", repeat_count: 5, position: 1 } }
+    post program_exercises_path(@program), params: {exercise: {name: "Test", repeat_count: 5, position: 1}}
     assert_redirected_to signin_path
   end
 
   test "update requires authentication" do
-    patch exercise_path(@exercise), params: { exercise: { name: "Updated" } }
+    patch exercise_path(@exercise), params: {exercise: {name: "Updated"}}
     assert_redirected_to signin_path
   end
 
@@ -25,7 +25,7 @@ class ExercisesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "move requires authentication" do
-    patch move_exercise_path(@exercise), params: { position: 2 }
+    patch move_exercise_path(@exercise), params: {position: 2}
     assert_redirected_to signin_path
   end
 

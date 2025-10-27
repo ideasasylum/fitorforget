@@ -19,8 +19,8 @@ class User < ApplicationRecord
 
   # Validations
   validates :email, presence: true
-  validates :email, uniqueness: { case_sensitive: false }
-  validates :email, format: { with: /@/, message: "must contain @" }
+  validates :email, uniqueness: {case_sensitive: false}
+  validates :email, format: {with: /@/, message: "must contain @"}
 
   # Callbacks
   before_create :generate_webauthn_id

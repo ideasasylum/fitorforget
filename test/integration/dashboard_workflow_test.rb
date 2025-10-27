@@ -78,7 +78,7 @@ class DashboardWorkflowTest < ActionDispatch::IntegrationTest
   test "dashboard shows programs user created" do
     sign_in_as(@user)
 
-    program = @user.programs.create!(title: "My Created Program")
+    @user.programs.create!(title: "My Created Program")
 
     get dashboard_path
     assert_response :success
@@ -133,7 +133,7 @@ class DashboardWorkflowTest < ActionDispatch::IntegrationTest
     other_user = User.create!(email: "other@example.com")
 
     # User's own program
-    own_program = @user.programs.create!(title: "Own Program")
+    @user.programs.create!(title: "Own Program")
 
     # Other user's program that this user has followed
     other_program = other_user.programs.create!(title: "Other Program")

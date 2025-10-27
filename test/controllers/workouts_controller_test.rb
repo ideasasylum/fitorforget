@@ -4,7 +4,7 @@ class WorkoutsControllerTest < ActionDispatch::IntegrationTest
   # Test 1: Authentication requirement - redirect if not authenticated
   test "should redirect to signin when not authenticated" do
     program = programs(:strength_program)
-    post workouts_path, params: { program_id: program.uuid }
+    post workouts_path, params: {program_id: program.uuid}
 
     assert_redirected_to signin_path
     assert_equal "Please sign in to continue", flash[:alert]
@@ -17,7 +17,7 @@ class WorkoutsControllerTest < ActionDispatch::IntegrationTest
     sign_in_as(user)
 
     assert_difference "Workout.count", 1 do
-      post workouts_path, params: { program_id: program.uuid }
+      post workouts_path, params: {program_id: program.uuid}
     end
 
     workout = Workout.last
@@ -56,7 +56,7 @@ class WorkoutsControllerTest < ActionDispatch::IntegrationTest
 
     exercise_id = workout.exercises_data[0]["id"]
 
-    patch mark_complete_workout_path(workout), params: { exercise_id: exercise_id }
+    patch mark_complete_workout_path(workout), params: {exercise_id: exercise_id}
 
     assert_redirected_to workout_path(workout)
     workout.reload
@@ -88,7 +88,7 @@ class WorkoutsControllerTest < ActionDispatch::IntegrationTest
 
     assert_difference("Program.count", 1) do
       assert_difference("Workout.count", 1) do
-        post workouts_path, params: { program_id: other_users_program.uuid }
+        post workouts_path, params: {program_id: other_users_program.uuid}
       end
     end
 
@@ -108,7 +108,7 @@ class WorkoutsControllerTest < ActionDispatch::IntegrationTest
     other_users_program = programs(:strength_program)  # owned by john
     sign_in_as(user)
 
-    post workouts_path, params: { program_id: other_users_program.uuid }
+    post workouts_path, params: {program_id: other_users_program.uuid}
 
     follow_redirect!
     # Should only show the workout started message, not duplication message
@@ -122,7 +122,7 @@ class WorkoutsControllerTest < ActionDispatch::IntegrationTest
 
     assert_no_difference("Program.count") do
       assert_difference("Workout.count", 1) do
-        post workouts_path, params: { program_id: owned_program.uuid }
+        post workouts_path, params: {program_id: owned_program.uuid}
       end
     end
 

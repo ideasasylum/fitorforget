@@ -30,17 +30,17 @@ module ApplicationHelper
 
   def extract_youtube_id(url)
     # Match youtube.com/watch?v=VIDEO_ID
-    if url.match(%r{youtube\.com/watch\?v=([^&]+)})
+    if url =~ %r{youtube\.com/watch\?v=([^&]+)}
       return $1
     end
 
     # Match youtu.be/VIDEO_ID
-    if url.match(%r{youtu\.be/([^?]+)})
+    if url =~ %r{youtu\.be/([^?]+)}
       return $1
     end
 
     # Match youtube.com/embed/VIDEO_ID
-    if url.match(%r{youtube\.com/embed/([^?]+)})
+    if url =~ %r{youtube\.com/embed/([^?]+)}
       return $1
     end
 
@@ -49,8 +49,8 @@ module ApplicationHelper
 
   def extract_instagram_id(url)
     # Match instagram.com/p/POST_ID or instagram.com/reel/REEL_ID
-    if url.match(%r{instagram\.com/(p|reel)/([^/?]+)})
-      return { type: $1, id: $2 }
+    if url =~ %r{instagram\.com/(p|reel)/([^/?]+)}
+      return {type: $1, id: $2}
     end
 
     nil

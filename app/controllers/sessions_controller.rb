@@ -12,7 +12,7 @@ class SessionsController < ApplicationController
       render turbo_stream: turbo_stream.replace(
         "signup_flow",
         partial: "sessions/error",
-        locals: { message: "Please enter a valid email address", flow_type: "signup" }
+        locals: {message: "Please enter a valid email address", flow_type: "signup"}
       )
       return
     end
@@ -22,7 +22,7 @@ class SessionsController < ApplicationController
       render turbo_stream: turbo_stream.replace(
         "signup_flow",
         partial: "sessions/error",
-        locals: { message: "An account with this email already exists. Please sign in instead.", flow_type: "signup" }
+        locals: {message: "An account with this email already exists. Please sign in instead.", flow_type: "signup"}
       )
       return
     end
@@ -44,7 +44,7 @@ class SessionsController < ApplicationController
       render turbo_stream: turbo_stream.replace(
         "signin_flow",
         partial: "sessions/error",
-        locals: { message: "Please enter a valid email address", flow_type: "signin" }
+        locals: {message: "Please enter a valid email address", flow_type: "signin"}
       )
       return
     end
@@ -56,7 +56,7 @@ class SessionsController < ApplicationController
       render turbo_stream: turbo_stream.replace(
         "signin_flow",
         partial: "sessions/error",
-        locals: { message: "No account found with this email. Please sign up instead.", flow_type: "signin" }
+        locals: {message: "No account found with this email. Please sign up instead.", flow_type: "signin"}
       )
       return
     end
@@ -73,82 +73,78 @@ class SessionsController < ApplicationController
 
   # Verification Actions (called by Stimulus controller via form submission)
   def handle_registration
-    begin
-      email = params[:email]&.strip&.downcase
-      credential_response = JSON.parse(params[:credential_response])
+    email = params[:email]&.strip&.downcase
+    credential_response = JSON.parse(params[:credential_response])
 
-      # Verify the credential
-      webauthn_credential = WebAuthn::Credential.from_create(credential_response)
+    # Verify the credential
+    webauthn_credential = WebAuthn::Credential.from_create(credential_response)
 
-      # Verify against stored challenge
-      webauthn_credential.verify(session[:webauthn_challenge])
+    # Verify against stored challenge
+    webauthn_credential.verify(session[:webauthn_challenge])
 
-      # Create user with the stored webauthn_id
-      user = User.create!(
-        email: email
-      )
+    # Create user with the stored webauthn_id
+    user = User.create!(
+      email: email
+    )
 
-      # Store the credential
-      user.credentials.create!(
-        external_id: webauthn_credential.id,
-        public_key: webauthn_credential.public_key,
-        sign_count: webauthn_credential.sign_count
-      )
+    # Store the credential
+    user.credentials.create!(
+      external_id: webauthn_credential.id,
+      public_key: webauthn_credential.public_key,
+      sign_count: webauthn_credential.sign_count
+    )
 
-      # Create session
-      create_user_session(user)
+    # Create session
+    create_user_session(user)
 
-      # Clear temporary session data
-      session.delete(:webauthn_challenge)
-      session.delete(:pending_email)
-      session.delete(:pending_webauthn_id)
-      session.delete(:flow_type)
+    # Clear temporary session data
+    session.delete(:webauthn_challenge)
+    session.delete(:pending_email)
+    session.delete(:pending_webauthn_id)
+    session.delete(:flow_type)
 
-      redirect_to session.delete(:return_to) || dashboard_path, notice: "Welcome! Your account has been created."
-    rescue => e
-      Rails.logger.error "Registration failed: #{e.message}"
-      redirect_to signup_path, alert: "Registration failed. Please try again."
-    end
+    redirect_to session.delete(:return_to) || dashboard_path, notice: "Welcome! Your account has been created."
+  rescue => e
+    Rails.logger.error "Registration failed: #{e.message}"
+    redirect_to signup_path, alert: "Registration failed. Please try again."
   end
 
   def handle_authentication
-    begin
-      email = params[:email]&.strip&.downcase
-      credential_response = JSON.parse(params[:credential_response])
+    email = params[:email]&.strip&.downcase
+    credential_response = JSON.parse(params[:credential_response])
 
-      user = User.find_by(email: email)
-      raise "User not found" unless user
+    user = User.find_by(email: email)
+    raise "User not found" unless user
 
-      # Verify the credential
-      webauthn_credential = WebAuthn::Credential.from_get(credential_response)
+    # Verify the credential
+    webauthn_credential = WebAuthn::Credential.from_get(credential_response)
 
-      # Find matching credential
-      credential = user.credentials.find_by(external_id: webauthn_credential.id)
-      raise "Credential not found" unless credential
+    # Find matching credential
+    credential = user.credentials.find_by(external_id: webauthn_credential.id)
+    raise "Credential not found" unless credential
 
-      # Verify against stored challenge and public key
-      webauthn_credential.verify(
-        session[:webauthn_challenge],
-        public_key: credential.public_key,
-        sign_count: credential.sign_count
-      )
+    # Verify against stored challenge and public key
+    webauthn_credential.verify(
+      session[:webauthn_challenge],
+      public_key: credential.public_key,
+      sign_count: credential.sign_count
+    )
 
-      # Update sign count
-      credential.update!(sign_count: webauthn_credential.sign_count)
+    # Update sign count
+    credential.update!(sign_count: webauthn_credential.sign_count)
 
-      # Create session
-      create_user_session(user)
+    # Create session
+    create_user_session(user)
 
-      # Clear temporary session data
-      session.delete(:webauthn_challenge)
-      session.delete(:pending_email)
-      session.delete(:flow_type)
+    # Clear temporary session data
+    session.delete(:webauthn_challenge)
+    session.delete(:pending_email)
+    session.delete(:flow_type)
 
-      redirect_to session.delete(:return_to) || dashboard_path, notice: "Welcome back!"
-    rescue => e
-      Rails.logger.error "Authentication failed: #{e.message}"
-      redirect_to signin_path, alert: "Authentication failed. Please try again."
-    end
+    redirect_to session.delete(:return_to) || dashboard_path, notice: "Welcome back!"
+  rescue => e
+    Rails.logger.error "Authentication failed: #{e.message}"
+    redirect_to signin_path, alert: "Authentication failed. Please try again."
   end
 
   private

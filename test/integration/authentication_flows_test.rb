@@ -9,7 +9,7 @@ class AuthenticationFlowsTest < ActionDispatch::IntegrationTest
 
     # Submit email for new user
     email = "newuser@example.com"
-    post create_signup_path, params: { email: email }
+    post create_signup_path, params: {email: email}
     assert_response :success
 
     # Verify registration challenge is generated
@@ -31,14 +31,14 @@ class AuthenticationFlowsTest < ActionDispatch::IntegrationTest
   test "full login flow authenticates existing user with case-insensitive email" do
     # Create an existing user with lowercase email
     user = User.create!(email: "existing@example.com")
-    credential = user.credentials.create!(
+    user.credentials.create!(
       external_id: "test_credential_123",
       public_key: "test_public_key",
       sign_count: 0
     )
 
     # Try to sign in with different casing (THIS TESTS THE BUG FIX)
-    post create_signin_path, params: { email: "Existing@Example.com" }
+    post create_signin_path, params: {email: "Existing@Example.com"}
     assert_response :success
 
     # The system should recognize this as an existing user and generate auth challenge
@@ -53,7 +53,7 @@ class AuthenticationFlowsTest < ActionDispatch::IntegrationTest
   test "multi-device registration creates multiple credentials for same user" do
     # Create a user with one credential (device 1)
     user = User.create!(email: "multidevice@example.com")
-    device1_credential = user.credentials.create!(
+    user.credentials.create!(
       external_id: "device1_credential",
       public_key: "device1_public_key",
       sign_count: 0
@@ -63,7 +63,7 @@ class AuthenticationFlowsTest < ActionDispatch::IntegrationTest
 
     # Simulate adding a second device
     # In real flow, user would authenticate from new device and be prompted to register
-    device2_credential = user.credentials.create!(
+    user.credentials.create!(
       external_id: "device2_credential",
       public_key: "device2_public_key",
       sign_count: 0
@@ -143,7 +143,7 @@ class AuthenticationFlowsTest < ActionDispatch::IntegrationTest
 
   # Test: Email validation prevents invalid emails
   test "email validation prevents invalid email format" do
-    post create_signup_path, params: { email: "notanemail" }
+    post create_signup_path, params: {email: "notanemail"}
     assert_response :success
 
     # Should return error, not create challenge
@@ -152,7 +152,7 @@ class AuthenticationFlowsTest < ActionDispatch::IntegrationTest
 
   # Test: Email validation prevents empty emails
   test "email validation prevents empty email" do
-    post create_signup_path, params: { email: "" }
+    post create_signup_path, params: {email: ""}
     assert_response :success
 
     # Should return error, not create challenge
@@ -173,7 +173,7 @@ class AuthenticationFlowsTest < ActionDispatch::IntegrationTest
     initial_user_count = User.count
 
     # Try to sign up with same email in different case
-    post create_signup_path, params: { email: "USER@EXAMPLE.COM" }
+    post create_signup_path, params: {email: "USER@EXAMPLE.COM"}
     assert_response :success
 
     # Should NOT generate a registration challenge (should show error instead)
