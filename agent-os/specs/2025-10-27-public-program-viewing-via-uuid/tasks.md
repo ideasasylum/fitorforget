@@ -131,7 +131,7 @@ Feature: Enable public access to exercise programs via UUID-based URLs with cond
     - Include signup link button with indigo-600 background, min-h-[44px] for touch target
   - [x] 3.6 Add SEO meta tags to programs/show.html.erb
     - Use `<% content_for :head do %>` block at top of file
-    - Add page title: `<title><%= @program.title %> - Fit or Forget</title>`
+    - Add page title: `<title><%= @program.title %> - Wombat Workouts</title>`
     - Add meta description with truncated program description (160 chars max)
     - Add Open Graph tags: og:title, og:description, og:type (website), og:url
     - Add Twitter Card tags: twitter:card (summary), twitter:title, twitter:description

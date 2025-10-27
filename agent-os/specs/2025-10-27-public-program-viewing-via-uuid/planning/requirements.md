@@ -173,7 +173,7 @@ No visual analysis required - feature will adapt existing program show page desi
 - Consider privacy-enhanced mode for YouTube (`youtube-nocookie.com`)
 
 **SEO Meta Tags:**
-- Set `<title>` tag to program title (e.g., "Knee Rehab Program - Fit or Forget")
+- Set `<title>` tag to program title (e.g., "Knee Rehab Program - Wombat Workouts")
 - Add `<meta name="description">` using program description (truncate if too long)
 - Add Open Graph tags:
   - `og:title` - Program title

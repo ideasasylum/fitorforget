@@ -172,19 +172,19 @@ No mockups provided. Feature adapts existing program show page design with condi
 **Add to `<head>` section using content_for:**
 ```erb
 <% content_for :head do %>
-  <title><%= @program.title %> - Fit or Forget</title>
-  <meta name="description" content="<%= @program.description.present? ? truncate(@program.description, length: 160) : 'View this exercise program on Fit or Forget' %>">
+  <title><%= @program.title %> - Wombat Workouts</title>
+  <meta name="description" content="<%= @program.description.present? ? truncate(@program.description, length: 160) : 'View this exercise program on Wombat Workouts' %>">
 
   <!-- Open Graph tags -->
   <meta property="og:title" content="<%= @program.title %>">
-  <meta property="og:description" content="<%= @program.description.present? ? truncate(@program.description, length: 200) : 'View this exercise program on Fit or Forget' %>">
+  <meta property="og:description" content="<%= @program.description.present? ? truncate(@program.description, length: 200) : 'View this exercise program on Wombat Workouts' %>">
   <meta property="og:type" content="website">
   <meta property="og:url" content="<%= program_url(@program) %>">
 
   <!-- Twitter Card tags -->
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="<%= @program.title %>">
-  <meta name="twitter:description" content="<%= @program.description.present? ? truncate(@program.description, length: 200) : 'View this exercise program on Fit or Forget' %>">
+  <meta name="twitter:description" content="<%= @program.description.present? ? truncate(@program.description, length: 200) : 'View this exercise program on Wombat Workouts' %>">
 <% end %>
 ```
 

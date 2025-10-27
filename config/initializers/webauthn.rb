@@ -3,20 +3,20 @@
 
 WebAuthn.configure do |config|
   # Set the allowed origins based on the environment
-  # In development: https://local.fitorforget.com:3000 (SSL required for WebAuthn)
+  # In development: https://local.wombatworkouts.com:3000 (SSL required for WebAuthn)
   # In production: Use the actual production domain (HTTPS required)
   config.allowed_origins = if Rails.env.development?
-    ["https://local.fitorforget.com:3000"]
+    ["https://local.wombatworkouts.com:3000"]
   elsif Rails.env.test?
-    ["https://local.fitorforget.com:3000"]
+    ["https://local.wombatworkouts.com:3000"]
   else
     # In production, this should be set via environment variable
-    # Example: https://fitorforget.com
-    [ENV.fetch("WEBAUTHN_ORIGIN") { "https://example.com" }]
+    # Example: https://www.wombatworkouts.com
+    [ENV.fetch("WEBAUTHN_ORIGIN") { "https://www.wombatworkouts.com" }]
   end
 
   # Set the Relying Party name (displayed to users during WebAuthn prompts)
-  config.rp_name = "Fit or Forget"
+  config.rp_name = "Wombat Workouts"
 
   # Credential options configuration
   config.credential_options_timeout = 120_000 # 120 seconds for users to complete biometric auth

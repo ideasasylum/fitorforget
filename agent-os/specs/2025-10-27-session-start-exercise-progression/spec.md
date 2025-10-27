@@ -74,7 +74,7 @@ Enable authenticated users to start workout sessions from programs, progress thr
 - No restrictions on in-progress workouts
 
 ## Visual Design
-No mockups provided. Follow existing Fit or Forget design patterns:
+No mockups provided. Follow existing Wombat Workouts design patterns:
 - Gradient background: `bg-gradient-to-br from-indigo-100 via-purple-50 to-pink-100`
 - White cards with rounded corners: `bg-white rounded-lg shadow-md`
 - Large mobile-friendly buttons: `min-w-[44px] min-h-[44px]`

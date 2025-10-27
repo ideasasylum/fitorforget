@@ -1,7 +1,7 @@
 # Product Mission
 
 ## Pitch
-Fit or Forget is a mobile-first exercise program webapp that helps coaches, trainers, and physical therapists deliver at-home exercise and rehab programs to their clients by providing simple program creation, effortless sharing via links, and straightforward session tracking that keeps clients accountable.
+Wombat Workouts is a mobile-first exercise program webapp that helps coaches, trainers, and physical therapists deliver at-home exercise and rehab programs to their clients by providing simple program creation, effortless sharing via links, and straightforward session tracking that keeps clients accountable.
 
 ## Users
 

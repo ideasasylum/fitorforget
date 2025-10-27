@@ -61,9 +61,7 @@ final_html_options = html_options.except(:class).merge(class: final_classes)
 
 # Icon spacing
 icon_margin = icon_position == :left ? "mr-2" : "ml-2"
-%>
 
-<%
 # Build button content
 button_content = capture do
   if icon && icon_position == :left

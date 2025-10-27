@@ -12,7 +12,7 @@
 
 ## Context
 
-This is part of the "Fit or Forget" Rails 8 application which already has:
+This is part of the "Wombat Workouts" Rails 8 application which already has:
 - WebAuthn passwordless authentication
 - Exercise Program CRUD with UUID-based routing
 - Exercise Management within programs with markdown descriptions

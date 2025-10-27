@@ -27,7 +27,7 @@ This breakdown implements passwordless authentication using WebAuthn biometrics,
   - [x] 1.3 Configure WebAuthn gem settings
     - Create `/config/initializers/webauthn.rb`
     - Set origin based on environment (localhost for dev, production domain)
-    - Set relying party name (e.g., "Fit or Forget")
+    - Set relying party name (e.g., "Wombat Workouts")
     - Configure credential options (timeout, user verification)
   - [x] 1.4 Enable secure session cookies
     - In session_store.rb, set `secure: true` for production

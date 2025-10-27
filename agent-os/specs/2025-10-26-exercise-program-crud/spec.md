@@ -103,7 +103,7 @@ No mockups provided. Follow existing application patterns:
 **Navigation Bar:**
 - File: `/Users/jamie/code/fitorforget/app/views/layouts/application.html.erb`
 - Pattern: Fixed top navigation with white background and shadow
-- Pattern: "Fit or Forget" logo link to root path
+- Pattern: "Wombat Workouts" logo link to root path
 - Pattern: User email display and logout button
 - Consideration: Add "Programs" navigation link in future enhancement
 

@@ -2,7 +2,7 @@
 
 ## Development Path
 
-This roadmap outlines the feature development sequence for Fit or Forget, ordered by technical dependencies and the most direct path to delivering core value. Each feature represents an end-to-end implementation including frontend, backend, database, and testing.
+This roadmap outlines the feature development sequence for Wombat Workouts, ordered by technical dependencies and the most direct path to delivering core value. Each feature represents an end-to-end implementation including frontend, backend, database, and testing.
 
 ---
 

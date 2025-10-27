@@ -239,7 +239,7 @@ This feature enables authenticated users to start workout sessions from programs
 - Completion screen shows celebration and summary ✓
 - All buttons meet 44x44px minimum for mobile ✓
 - Video embeds are responsive and tap-to-play ✓
-- Design matches existing Fit or Forget patterns ✓
+- Design matches existing Wombat Workouts patterns ✓
 
 ---
 
