@@ -63,26 +63,23 @@ final_html_options = html_options.except(:class).merge(class: final_classes)
 icon_margin = icon_position == :left ? "mr-2" : "ml-2"
 -%>
 
+<%
+# Build button content
+button_content = capture do
+  if icon && icon_position == :left
+    concat render("shared/icons/#{icon}", class: "w-5 h-5 #{icon_margin}")
+  end
+  concat text
+  if icon && icon_position == :right
+    concat render("shared/icons/#{icon}", class: "w-5 h-5 #{icon_margin}")
+  end
+end
+-%>
+
 <% if url %>
   <% link_options = final_html_options.dup %>
   <% link_options[:method] = http_method if http_method.present? %>
-  <%= link_to url, link_options do %>
-    <% if icon && icon_position == :left %>
-      <%= render "shared/icons/#{icon}", class: "w-5 h-5 #{icon_margin}" %>
-    <% end %>
-    <%= text %>
-    <% if icon && icon_position == :right %>
-      <%= render "shared/icons/#{icon}", class: "w-5 h-5 #{icon_margin}" %>
-    <% end %>
-  <% end %>
+  <%= link_to button_content.html_safe, url, link_options %>
 <% else %>
-  <button type="button" <%= tag.attributes(final_html_options) %>>
-    <% if icon && icon_position == :left %>
-      <%= render "shared/icons/#{icon}", class: "w-5 h-5 #{icon_margin}" %>
-    <% end %>
-    <%= text %>
-    <% if icon && icon_position == :right %>
-      <%= render "shared/icons/#{icon}", class: "w-5 h-5 #{icon_margin}" %>
-    <% end %>
-  </button>
+  <%= content_tag(:button, button_content.html_safe, final_html_options.merge(type: 'button')) %>
 <% end %>
