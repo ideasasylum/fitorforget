@@ -64,12 +64,8 @@
 
   <div>
     <%= f.label :description, "Description (optional)", class: "block text-sm font-medium text-gray-700 mb-2" %>
-    <div class="exercise-description-editor border border-gray-300 rounded-lg overflow-hidden" style="min-height: 200px;" data-exercise-editor>
-      <%= f.text_area :description,
-            rows: 8,
-            placeholder: "Use markdown to format your description...\n\n**Bold** or _italic_\n- List items\n- More items",
-            class: "w-full p-3 border-none focus:ring-0 focus:outline-none" %>
-    </div>
+    <%= f.hidden_field :description, id: "exercise_description_hidden_#{exercise.object_id}" %>
+    <div id="exercise-description-editor-<%= exercise.object_id %>" class="border border-gray-300 rounded-lg" style="height: 250px;"></div>
     <% if exercise.errors[:description].any? %>
       <p class="mt-1 text-sm text-red-600">
         <%= exercise.errors.full_messages_for(:description).join(', ') %>
@@ -78,15 +74,28 @@
   </div>
 
   <script>
-    document.addEventListener('turbo:load', function() {
-      const editors = document.querySelectorAll('[data-exercise-editor]');
-      editors.forEach(function(editorDiv) {
-        if (!editorDiv.dataset.initialized) {
-          editorDiv.dataset.initialized = 'true';
-          new OverType(editorDiv);
+    (function() {
+      const editorId = 'exercise-description-editor-<%= exercise.object_id %>';
+      const hiddenFieldId = 'exercise_description_hidden_<%= exercise.object_id %>';
+
+      // Only initialize once
+      if (document.getElementById(editorId).dataset.initialized) {
+        return;
+      }
+
+      document.getElementById(editorId).dataset.initialized = 'true';
+
+      const [editor] = new OverType('#' + editorId, {
+        value: <%= raw exercise.description.to_json %> || '',
+        placeholder: 'Use markdown to format your description...\n\n**Bold** or _italic_\n- List items\n- More items',
+        onChange: (value) => {
+          document.getElementById(hiddenFieldId).value = value;
         }
       });
-    });
+
+      // Set initial value in hidden field
+      document.getElementById(hiddenFieldId).value = editor.getValue();
+    })();
   </script>
 
   <div class="flex gap-3">
