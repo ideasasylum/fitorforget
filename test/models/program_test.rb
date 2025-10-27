@@ -38,4 +38,78 @@ class ProgramTest < ActiveSupport::TestCase
     program = @user.programs.create(title: "Test Program")
     assert_equal @user, program.user
   end
+
+  # Task Group 1.1: Tests for Program#duplicate
+  test "duplicate should create a new program with copied attributes" do
+    original_program = programs(:strength_program)
+    new_user = users(:two)
+
+    duplicated_program = original_program.duplicate(new_user.id)
+
+    assert_not_nil duplicated_program
+    assert duplicated_program.persisted?
+    assert_equal original_program.title, duplicated_program.title
+    assert_equal original_program.description, duplicated_program.description
+    assert_equal new_user.id, duplicated_program.user_id
+    assert_not_equal original_program.id, duplicated_program.id
+    assert_not_equal original_program.uuid, duplicated_program.uuid
+  end
+
+  test "duplicate should deep copy all exercises with correct positions" do
+    original_program = programs(:strength_program)
+    new_user = users(:two)
+
+    duplicated_program = original_program.duplicate(new_user.id)
+
+    assert_equal original_program.exercises.count, duplicated_program.exercises.count
+
+    original_program.exercises.order(:position).each_with_index do |original_exercise, index|
+      duplicated_exercise = duplicated_program.exercises.order(:position)[index]
+
+      assert_equal original_exercise.name, duplicated_exercise.name
+      assert_equal original_exercise.repeat_count, duplicated_exercise.repeat_count
+      assert_equal original_exercise.description, duplicated_exercise.description
+      assert_equal original_exercise.video_url, duplicated_exercise.video_url
+      assert_equal original_exercise.position, duplicated_exercise.position
+      assert_not_equal original_exercise.id, duplicated_exercise.id
+      assert_equal duplicated_program.id, duplicated_exercise.program_id
+    end
+  end
+
+  test "duplicate should generate new UUID for duplicated program" do
+    original_program = programs(:strength_program)
+    new_user = users(:two)
+
+    duplicated_program = original_program.duplicate(new_user.id)
+
+    assert_not_nil duplicated_program.uuid
+    assert_not_equal original_program.uuid, duplicated_program.uuid
+    assert_match(/\A[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\z/, duplicated_program.uuid)
+  end
+
+  test "duplicate should assign new user_id" do
+    original_program = programs(:strength_program)
+    original_user = original_program.user
+    new_user = users(:two)
+
+    duplicated_program = original_program.duplicate(new_user.id)
+
+    assert_equal new_user.id, duplicated_program.user_id
+    assert_not_equal original_user.id, duplicated_program.user_id
+  end
+
+  test "duplicate should work with program that has no exercises" do
+    original_program = programs(:cardio_program)
+    # Ensure it has no exercises for this test
+    original_program.exercises.destroy_all
+    new_user = users(:two)
+
+    duplicated_program = original_program.duplicate(new_user.id)
+
+    assert_not_nil duplicated_program
+    assert duplicated_program.persisted?
+    assert_equal 0, duplicated_program.exercises.count
+    assert_equal original_program.title, duplicated_program.title
+    assert_equal new_user.id, duplicated_program.user_id
+  end
 end

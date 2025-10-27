@@ -1,7 +1,7 @@
 class ProgramsController < ApplicationController
   # Task 1.2: Allow public access to show action
   before_action :require_authentication, except: [:show]
-  before_action :set_program, only: [:show, :edit, :update, :destroy]
+  before_action :set_program, only: [:show, :edit, :update, :destroy, :duplicate]
 
   def index
     @programs = current_user.programs.order(created_at: :desc)
@@ -40,6 +40,14 @@ class ProgramsController < ApplicationController
   def destroy
     @program.destroy
     redirect_to programs_path, notice: "Program deleted successfully"
+  end
+
+  # Task Group 2.2: Manual "Save to My Programs" action
+  def duplicate
+    @duplicated_program = @program.duplicate(current_user.id)
+    redirect_to @duplicated_program, notice: "Program saved to your library"
+  rescue => e
+    redirect_to @program, alert: "Unable to save program. Please try again."
   end
 
   private

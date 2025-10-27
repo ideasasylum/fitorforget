@@ -10,6 +10,12 @@ class WorkoutsController < ApplicationController
   # GET /workouts/new?program_id=:uuid
   def new
     program = Program.find_by!(uuid: params[:program_id])
+
+    # Task Group 3.2: Auto-duplicate if user doesn't own the program
+    if program.user_id != current_user.id
+      program = program.duplicate(current_user.id)
+    end
+
     @workout = Workout.new(user: current_user, program: program)
     @workout.initialize_from_program(program)
   end
@@ -17,6 +23,12 @@ class WorkoutsController < ApplicationController
   # POST /workouts
   def create
     program = Program.find_by!(uuid: params[:program_id])
+
+    # Task Group 3.3: Auto-duplicate if user doesn't own the program
+    if program.user_id != current_user.id
+      program = program.duplicate(current_user.id)
+    end
+
     @workout = Workout.new(user: current_user, program: program)
     @workout.initialize_from_program(program)
 

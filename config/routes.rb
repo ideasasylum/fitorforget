@@ -18,8 +18,14 @@ Rails.application.routes.draw do
   post   "/signin/verify",    to: "sessions#handle_authentication", as: :verify_signin
   delete "/logout",           to: "sessions#destroy",            as: :logout
 
+  # Dashboard
+  get '/dashboard', to: 'dashboard#index', as: :dashboard
+
   # Programs routes with nested exercises
   resources :programs do
+    member do
+      post :duplicate  # Task Group 2.3: Add duplicate route
+    end
     resources :exercises, only: [:new, :create], shallow: true do
       member do
         patch :move

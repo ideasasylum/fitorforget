@@ -79,4 +79,86 @@ class WorkoutsControllerTest < ActionDispatch::IntegrationTest
     # If no exception was raised, the test should fail
     assert_response :not_found
   end
+
+  # Task Group 3.1: Tests for auto-duplication on workout start
+  test "starting workout from non-owned program duplicates it silently" do
+    user = users(:jane)
+    other_users_program = programs(:strength_program)  # owned by john
+    sign_in_as(user)
+
+    assert_difference("Program.count", 1) do
+      assert_difference("Workout.count", 1) do
+        post workouts_path, params: { program_id: other_users_program.uuid }
+      end
+    end
+
+    workout = Workout.last
+    duplicated_program = Program.last
+
+    # Workout should be associated with duplicated copy, not original
+    assert_equal duplicated_program.id, workout.program_id
+    assert_not_equal other_users_program.id, workout.program_id
+
+    # Duplicated program should belong to current user
+    assert_equal user.id, duplicated_program.user_id
+  end
+
+  test "automatic duplication does not show flash message" do
+    user = users(:jane)
+    other_users_program = programs(:strength_program)  # owned by john
+    sign_in_as(user)
+
+    post workouts_path, params: { program_id: other_users_program.uuid }
+
+    follow_redirect!
+    # Should only show the workout started message, not duplication message
+    assert_equal "Workout started successfully", flash[:notice]
+  end
+
+  test "starting workout from owned program uses original without duplication" do
+    user = users(:john)
+    owned_program = programs(:strength_program)  # owned by john
+    sign_in_as(user)
+
+    assert_no_difference("Program.count") do
+      assert_difference("Workout.count", 1) do
+        post workouts_path, params: { program_id: owned_program.uuid }
+      end
+    end
+
+    workout = Workout.last
+    # Workout should use original program
+    assert_equal owned_program.id, workout.program_id
+  end
+
+  test "new action duplicates non-owned program before displaying form" do
+    user = users(:jane)
+    other_users_program = programs(:strength_program)  # owned by john
+    sign_in_as(user)
+
+    initial_program_count = Program.count
+
+    get new_workout_path(program_id: other_users_program.uuid)
+
+    assert_response :success
+    # A new program should have been created
+    assert_equal initial_program_count + 1, Program.count
+
+    # The newest program should belong to the current user
+    newest_program = Program.last
+    assert_equal user.id, newest_program.user_id
+    assert_not_equal other_users_program.id, newest_program.id
+  end
+
+  test "new action uses owned program without duplication" do
+    user = users(:john)
+    owned_program = programs(:strength_program)  # owned by john
+    sign_in_as(user)
+
+    assert_no_difference("Program.count") do
+      get new_workout_path(program_id: owned_program.uuid)
+    end
+
+    assert_response :success
+  end
 end

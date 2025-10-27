@@ -160,4 +160,51 @@ class ProgramsControllerTest < ActionDispatch::IntegrationTest
     delete program_path(@program)
     assert_redirected_to signin_path
   end
+
+  # Task Group 2.1: Tests for ProgramsController#duplicate
+  test "authenticated user can duplicate non-owned program" do
+    sign_in_as(@other_user)
+
+    assert_difference("Program.count", 1) do
+      post duplicate_program_path(@program)
+    end
+
+    duplicated = Program.last
+    assert_equal @program.title, duplicated.title
+    assert_equal @program.description, duplicated.description
+    assert_equal @other_user.id, duplicated.user_id
+    assert_not_equal @program.uuid, duplicated.uuid
+  end
+
+  test "duplicate redirects to new copy with flash message" do
+    sign_in_as(@other_user)
+
+    post duplicate_program_path(@program)
+
+    duplicated = Program.last
+    assert_redirected_to program_path(duplicated)
+    follow_redirect!
+    assert_equal "Program saved to your library", flash[:notice]
+  end
+
+  test "duplicate requires authentication" do
+    post duplicate_program_path(@program)
+    assert_redirected_to signin_path
+  end
+
+  test "duplicate copies all exercises" do
+    @program.exercises.create!(name: "Exercise 1", repeat_count: 3, position: 1)
+    @program.exercises.create!(name: "Exercise 2", repeat_count: 5, position: 2)
+
+    sign_in_as(@other_user)
+
+    assert_difference("Exercise.count", 2) do
+      post duplicate_program_path(@program)
+    end
+
+    duplicated = Program.last
+    assert_equal 2, duplicated.exercises.count
+    assert_equal "Exercise 1", duplicated.exercises.order(:position).first.name
+    assert_equal "Exercise 2", duplicated.exercises.order(:position).last.name
+  end
 end

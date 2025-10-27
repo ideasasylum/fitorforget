@@ -14,17 +14,17 @@ This roadmap outlines the feature development sequence for Fit or Forget, ordere
 
 4. [x] **Public Program Viewing via UUID** — Implement public program access through UUID-based routes (e.g., /programs/:uuid). Anonymous users can view full program details including all exercises without authentication. UUID sharing system allows instant access via link. `S`
 
-5. [ ] **Session Start & Exercise Progression** — Build session management allowing users to start a program session and progress through exercises sequentially. Implement UI for marking individual exercises as complete during an active session, with clear visual indicators of progress (e.g., "Exercise 2 of 8"). `M`
+5. [x] **Session Start & Exercise Progression** — Build session management allowing users to start a program session and progress through exercises sequentially. Implement UI for marking individual exercises as complete during an active session, with clear visual indicators of progress (e.g., "Exercise 2 of 8"). `M`
 
-6. [ ] **Session Completion & History Tracking** — Create Session model to persist completed sessions with timestamps, associated program, and individual exercise completion records. Users can view their session history showing past completion dates and programs followed. `M`
+6. [x] **Session Completion & History Tracking** — Create Session model to persist completed sessions with timestamps, associated program, and individual exercise completion records. Users can view their session history showing past completion dates and programs followed. `M`
 
-7. [ ] **Mobile-Responsive Exercise Interface** — Implement mobile-first UI using Tailwind CSS with large touch targets, clear typography, and optimized layout for phone screens. Exercise view displays video embeds, descriptions with proper formatting, and prominent completion buttons. Test across device sizes. `M`
+7. [x] **Mobile-Responsive Exercise Interface** — Implement mobile-first UI using Tailwind CSS with large touch targets, clear typography, and optimized layout for phone screens. Exercise view displays video embeds, descriptions with proper formatting, and prominent completion buttons. Test across device sizes. `M`
 
 8. [ ] **Program Library & Dashboard** — Build user dashboard displaying all programs they've created (with edit/delete actions) and programs they've followed (with quick access to start new session). Implement basic filtering and sorting by recent activity. `S`
 
-9. [ ] **Exercise Video Embed Optimization** — Enhance video integration to support multiple platforms (YouTube, Vimeo, etc.) with proper responsive embeds. Implement video preview validation and fallback for invalid URLs. Consider autoplay and mute options for better UX. `S`
+9. [~] **Exercise Video Embed Optimization** — Enhance video integration to support multiple platforms (YouTube, Vimeo, etc.) with proper responsive embeds. Implement video preview validation and fallback for invalid URLs. Consider autoplay and mute options for better UX. `S` _(Not necessary - YouTube and Instagram support sufficient)_
 
-10. [ ] **Exercise Description Formatting** — Add rich text formatting support for exercise descriptions (bold, lists, line breaks) using a simple markdown parser or Rails text helpers. Ensure formatted descriptions render properly on mobile. `XS`
+10. [x] **Exercise Description Formatting** — Add rich text formatting support for exercise descriptions (bold, lists, line breaks) using a simple markdown parser or Rails text helpers. Ensure formatted descriptions render properly on mobile. `XS`
 
 11. [ ] **Scheduled Exercise Reminders** — Implement reminder system where users can set recurring notifications (e.g., "Monday, Wednesday, Friday at 7am") for specific programs. Build background job processing using Solid Queue (Rails 8 default) to send email reminders. `L`
 

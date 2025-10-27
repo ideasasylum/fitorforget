@@ -104,7 +104,7 @@ class SessionsController < ApplicationController
       session.delete(:pending_webauthn_id)
       session.delete(:flow_type)
 
-      redirect_to session.delete(:return_to) || root_path, notice: "Welcome! Your account has been created."
+      redirect_to session.delete(:return_to) || dashboard_path, notice: "Welcome! Your account has been created."
     rescue => e
       Rails.logger.error "Registration failed: #{e.message}"
       redirect_to signup_path, alert: "Registration failed. Please try again."
@@ -144,7 +144,7 @@ class SessionsController < ApplicationController
       session.delete(:pending_email)
       session.delete(:flow_type)
 
-      redirect_to session.delete(:return_to) || root_path, notice: "Welcome back!"
+      redirect_to session.delete(:return_to) || dashboard_path, notice: "Welcome back!"
     rescue => e
       Rails.logger.error "Authentication failed: #{e.message}"
       redirect_to signin_path, alert: "Authentication failed. Please try again."
