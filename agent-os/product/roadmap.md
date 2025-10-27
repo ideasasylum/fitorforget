@@ -12,7 +12,7 @@ This roadmap outlines the feature development sequence for Fit or Forget, ordere
 
 3. [x] **Exercise Management within Programs** — Create the Exercise model with belongs_to relationship to Program. Users can add, edit, reorder, and remove exercises within a program. Each exercise includes name, repeat count (e.g., "3x"), video URL, and formatted description field. `M`
 
-4. [ ] **Public Program Viewing via UUID** — Implement public program access through UUID-based routes (e.g., /programs/:uuid). Anonymous users can view full program details including all exercises without authentication. UUID sharing system allows instant access via link. `S`
+4. [x] **Public Program Viewing via UUID** — Implement public program access through UUID-based routes (e.g., /programs/:uuid). Anonymous users can view full program details including all exercises without authentication. UUID sharing system allows instant access via link. `S`
 
 5. [ ] **Session Start & Exercise Progression** — Build session management allowing users to start a program session and progress through exercises sequentially. Implement UI for marking individual exercises as complete during an active session, with clear visual indicators of progress (e.g., "Exercise 2 of 8"). `M`
 
@@ -30,9 +30,12 @@ This roadmap outlines the feature development sequence for Fit or Forget, ordere
 
 12. [ ] **Progressive Web App (PWA) Setup** — Configure service workers, manifest file, and offline caching strategy to enable PWA installation. Users can add app to home screen and access previously viewed programs offline. Test installation flow on iOS and Android. `L`
 
+13. [ ] **Production Deployment with Kamal 2** — Deploy the application to production server using Kamal 2 for zero-downtime deployments. Configure environment variables, SSL certificates, database migrations, and health checks. Set up deployment workflow for automated releases. `M`
+
 > Notes
 > - Items 1-8 constitute the MVP (Minimum Viable Product) delivering core creator-follower workflow
 > - Items 9-10 are polish enhancements improving exercise content quality
 > - Items 11-12 are advanced features requiring background processing and PWA infrastructure
+> - Item 13 handles production deployment infrastructure
 > - Exercise timers intentionally omitted from initial roadmap - can be added as simple client-side feature later
 > - SQLite is sufficient for MVP; consider scaling strategy if concurrent usage grows significantly

@@ -1,5 +1,6 @@
 class ProgramsController < ApplicationController
-  before_action :require_authentication
+  # Task 1.2: Allow public access to show action
+  before_action :require_authentication, except: [:show]
   before_action :set_program, only: [:show, :edit, :update, :destroy]
 
   def index
@@ -7,6 +8,8 @@ class ProgramsController < ApplicationController
   end
 
   def show
+    # Task 1.4: Add owner detection logic
+    @is_owner = logged_in? && current_user.id == @program.user_id
   end
 
   def new
@@ -42,7 +45,8 @@ class ProgramsController < ApplicationController
   private
 
   def set_program
-    @program = current_user.programs.find_by!(uuid: params[:id])
+    # Task 1.3: Update for public access and eager load exercises
+    @program = Program.includes(:exercises).find_by!(uuid: params[:id])
   end
 
   def program_params

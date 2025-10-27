@@ -1,0 +1,11 @@
+strength_program:
+  title: "Strength Training Program"
+  description: "A comprehensive strength training program"
+  user: john
+  uuid: <%= SecureRandom.uuid %>
+
+cardio_program:
+  title: "Cardio Program"
+  description: "Cardio exercises for endurance"
+  user: jane
+  uuid: <%= SecureRandom.uuid %>

@@ -1,0 +1,61 @@
+<div class="min-h-screen bg-gradient-to-br from-indigo-100 via-purple-50 to-pink-100 py-12 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-4xl mx-auto">
+    <% if @workout.complete? && params[:exercise_index].blank? %>
+      <%= render 'completion' %>
+    <% else %>
+      <div class="bg-white rounded-lg shadow-md p-8">
+        <!-- Back to Summary button for completed workouts -->
+        <% if @workout.complete? && params[:exercise_index].present? %>
+          <div class="mb-6">
+            <%= link_to workout_path(@workout), class: "inline-flex items-center text-indigo-600 hover:text-indigo-700" do %>
+              <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+              </svg>
+              Back to Summary
+            <% end %>
+          </div>
+        <% end %>
+
+        <!-- Progress indicator -->
+        <div class="mb-6">
+          <div class="text-sm text-gray-600 mb-2">
+            Exercise <%= @stats[:completed_count] + @stats[:skipped_count] + 1 %> of <%= @stats[:total_count] %>
+          </div>
+          <div class="w-full bg-gray-200 rounded-full h-2.5">
+            <div class="bg-indigo-600 h-2.5 rounded-full" style="width: <%= ((@stats[:completed_count] + @stats[:skipped_count]).to_f / @stats[:total_count] * 100).round %>%"></div>
+          </div>
+        </div>
+
+        <% if @current_exercise %>
+          <h1 class="text-3xl font-extrabold text-gray-900 mb-4"><%= @current_exercise["name"] %></h1>
+
+          <% if @current_exercise["repeat_total"] > 1 %>
+            <p class="text-gray-600 mb-6">Set <%= @current_exercise["repeat_instance"] %> of <%= @current_exercise["repeat_total"] %></p>
+          <% end %>
+
+          <% if @current_exercise["description"].present? %>
+            <div class="prose prose-lg max-w-none mb-8">
+              <p class="text-gray-700 whitespace-pre-wrap"><%= @current_exercise["description"] %></p>
+            </div>
+          <% end %>
+
+          <% if @current_exercise["video_url"].present? %>
+            <div class="mb-8">
+              <div class="aspect-video rounded-lg overflow-hidden bg-gray-100">
+                <% video_id = @current_exercise["video_url"].match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&?]+)/)&.[](1) %>
+                <% if video_id %>
+                  <iframe class="w-full h-full" src="https://www.youtube-nocookie.com/embed/<%= video_id %>" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+
+          <div class="flex flex-col sm:flex-row gap-4">
+            <%= button_to "Mark Complete", mark_complete_workout_path(@workout), method: :patch, params: { exercise_id: @current_exercise["id"] }, class: "flex-1 inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors min-h-[44px]" %>
+            <%= button_to "Skip", skip_workout_path(@workout), method: :patch, params: { exercise_id: @current_exercise["id"] }, class: "flex-1 inline-flex items-center justify-center px-6 py-3 border border-gray-300 text-base font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors min-h-[44px]" %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>

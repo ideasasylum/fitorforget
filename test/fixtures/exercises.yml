@@ -1,0 +1,13 @@
+pushups:
+  name: "Push-ups"
+  repeat_count: 3
+  position: 1
+  video_url: "https://youtube.com/pushups"
+  program: strength_program
+
+squats:
+  name: "Squats"
+  repeat_count: 2
+  position: 2
+  video_url: "https://youtube.com/squats"
+  program: strength_program

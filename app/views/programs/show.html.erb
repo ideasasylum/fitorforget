@@ -1,9 +1,27 @@
+<% content_for :head do %>
+  <title><%= @program.title %> - Fit or Forget</title>
+  <meta name="description" content="<%= @program.description.present? ? truncate(@program.description, length: 160) : 'View this exercise program on Fit or Forget' %>">
+
+  <!-- Open Graph tags -->
+  <meta property="og:title" content="<%= @program.title %>">
+  <meta property="og:description" content="<%= @program.description.present? ? truncate(@program.description, length: 200) : 'View this exercise program on Fit or Forget' %>">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="<%= program_url(@program) %>">
+
+  <!-- Twitter Card tags -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="<%= @program.title %>">
+  <meta name="twitter:description" content="<%= @program.description.present? ? truncate(@program.description, length: 200) : 'View this exercise program on Fit or Forget' %>">
+<% end %>
+
 <div class="min-h-screen bg-gradient-to-br from-indigo-100 via-purple-50 to-pink-100 py-12 px-4 sm:px-6 lg:px-8">
   <div class="max-w-4xl mx-auto">
     <div class="bg-white rounded-lg shadow-md p-8">
-      <div class="mb-6">
-        <%= link_to "← Back to Programs", programs_path, class: "text-indigo-600 hover:text-indigo-700 font-medium" %>
-      </div>
+      <% if logged_in? %>
+        <div class="mb-6">
+          <%= link_to "← Back to Programs", programs_path, class: "text-indigo-600 hover:text-indigo-700 font-medium" %>
+        </div>
+      <% end %>
 
       <h1 class="text-3xl font-extrabold text-gray-900 mb-6"><%= @program.title %></h1>
 
@@ -15,15 +33,37 @@
         <p class="text-gray-400 italic mb-8">No description provided</p>
       <% end %>
 
+      <!-- Start Workout Button -->
+      <% if @program.exercises.any? %>
+        <div class="mb-8">
+          <% if logged_in? %>
+            <%= link_to new_workout_path(program_id: @program.uuid), class: "inline-flex items-center justify-center px-8 py-4 border border-transparent text-lg font-bold rounded-lg text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors min-h-[44px] w-full sm:w-auto" do %>
+              <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+              Start Workout
+            <% end %>
+          <% else %>
+            <div class="text-center p-6 bg-indigo-50 rounded-lg">
+              <p class="text-gray-700 mb-4">Sign in to start this workout and track your progress</p>
+              <%= link_to "Sign In", signin_path, class: "inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors min-h-[44px]" %>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+
       <!-- Exercises Section -->
       <div class="mt-8 pt-8 border-t border-gray-200">
         <div class="flex items-center justify-between mb-6">
           <h2 class="text-2xl font-bold text-gray-900">Exercises</h2>
-          <%= link_to new_program_exercise_path(@program), data: { turbo_frame: "exercise-form-frame" }, class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors min-h-[44px]" do %>
-            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-            </svg>
-            Add Exercise
+          <% if @is_owner %>
+            <%= link_to new_program_exercise_path(@program), data: { turbo_frame: "exercise-form-frame" }, class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors min-h-[44px]" do %>
+              <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+              </svg>
+              Add Exercise
+            <% end %>
           <% end %>
         </div>
 
@@ -41,15 +81,29 @@
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
             </svg>
             <h3 class="mt-2 text-sm font-medium text-gray-900">No exercises yet</h3>
-            <p class="mt-1 text-sm text-gray-500">Get started by adding your first exercise.</p>
+            <% if @is_owner %>
+              <p class="mt-1 text-sm text-gray-500">Get started by adding your first exercise.</p>
+            <% end %>
           </div>
         <% end %>
       </div>
 
-      <div class="flex space-x-4 pt-6 mt-8 border-t border-gray-200">
-        <%= link_to "Edit Program", edit_program_path(@program), class: "inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors" %>
-        <%= button_to "Delete Program", program_path(@program), method: :delete, form: { data: { turbo_confirm: "Are you sure you want to delete '#{@program.title}'? This action cannot be undone." } }, class: "inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors" %>
-      </div>
+      <!-- Signup CTA for non-authenticated users -->
+      <% unless logged_in? %>
+        <div class="mt-8 pt-8 border-t border-gray-200 text-center">
+          <h3 class="text-xl font-semibold text-gray-900 mb-3">Create Your Own Programs</h3>
+          <p class="text-gray-600 mb-4">Sign up to build and share exercise programs with your clients.</p>
+          <%= link_to "Sign Up Free", signup_path, class: "inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors min-h-[44px]" %>
+        </div>
+      <% end %>
+
+      <!-- Owner controls -->
+      <% if @is_owner %>
+        <div class="flex space-x-4 pt-6 mt-8 border-t border-gray-200">
+          <%= link_to "Edit Program", edit_program_path(@program), class: "inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors" %>
+          <%= button_to "Delete Program", program_path(@program), method: :delete, form: { data: { turbo_confirm: "Are you sure you want to delete '#{@program.title}'? This action cannot be undone." } }, class: "inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors" %>
+        </div>
+      <% end %>
     </div>
   </div>
 </div>

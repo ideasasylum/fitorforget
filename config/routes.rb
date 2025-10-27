@@ -30,6 +30,14 @@ Rails.application.routes.draw do
   # Shallow nested exercises routes (show, edit, update and destroy)
   resources :exercises, only: [:show, :edit, :update, :destroy]
 
+  # Workouts routes
+  resources :workouts, except: [:edit] do
+    member do
+      patch :mark_complete
+      patch :skip
+    end
+  end
+
   # Defines the root path route ("/")
   root "home#index"
 end

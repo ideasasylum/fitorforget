@@ -5,3 +5,11 @@ one:
 two:
   email: user2@example.com
   webauthn_id: <%= SecureRandom.hex(16) %>
+
+john:
+  email: john@example.com
+  webauthn_id: <%= SecureRandom.hex(16) %>
+
+jane:
+  email: jane@example.com
+  webauthn_id: <%= SecureRandom.hex(16) %>

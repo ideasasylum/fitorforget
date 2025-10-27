@@ -2,6 +2,7 @@ class Program < ApplicationRecord
   # Associations
   belongs_to :user
   has_many :exercises, -> { order(position: :asc) }, dependent: :destroy
+  has_many :workouts, dependent: :nullify  # Workouts persist as snapshots even if program is deleted
 
   # Validations
   validates :title, presence: true

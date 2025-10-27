@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_10_26_232717) do
+ActiveRecord::Schema[8.1].define(version: 2025_10_27_142303) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.text "body"
     t.datetime "created_at", null: false
@@ -103,9 +103,24 @@ ActiveRecord::Schema[8.1].define(version: 2025_10_26_232717) do
     t.index ["webauthn_id"], name: "index_users_on_webauthn_id", unique: true
   end
 
+  create_table "workouts", force: :cascade do |t|
+    t.datetime "completed_at"
+    t.datetime "created_at", null: false
+    t.text "exercises_data"
+    t.integer "program_id"
+    t.string "program_title"
+    t.datetime "started_at"
+    t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.index ["program_id"], name: "index_workouts_on_program_id"
+    t.index ["user_id"], name: "index_workouts_on_user_id"
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "credentials", "users", on_delete: :cascade
   add_foreign_key "exercises", "programs", on_delete: :cascade
   add_foreign_key "programs", "users", on_delete: :cascade
+  add_foreign_key "workouts", "programs", on_delete: :nullify
+  add_foreign_key "workouts", "users", on_delete: :cascade
 end

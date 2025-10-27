@@ -2,6 +2,7 @@ class User < ApplicationRecord
   # Associations
   has_many :credentials, dependent: :destroy
   has_many :programs, dependent: :destroy
+  has_many :workouts, dependent: :destroy
 
   # Normalization (Rails 7.1+)
   normalizes :email, with: ->(email) { email.strip.downcase }
