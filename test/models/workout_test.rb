@@ -1,3 +1,17 @@
+# == Schema Information
+#
+# Table name: workouts
+#
+#  id             :integer          not null, primary key
+#  completed_at   :datetime
+#  exercises_data :text
+#  program_title  :string
+#  started_at     :datetime
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#  program_id     :integer
+#  user_id        :integer          not null
+#
 require "test_helper"
 
 class WorkoutTest < ActiveSupport::TestCase

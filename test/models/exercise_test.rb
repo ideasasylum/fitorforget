@@ -1,3 +1,17 @@
+# == Schema Information
+#
+# Table name: exercises
+#
+#  id           :integer          not null, primary key
+#  description  :text
+#  name         :string           not null
+#  position     :integer          not null
+#  repeat_count :integer          not null
+#  video_url    :string
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#  program_id   :integer          not null
+#
 require "test_helper"
 
 class ExerciseTest < ActiveSupport::TestCase

@@ -63,6 +63,9 @@ group :development, :test do
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
+
+  # Annotate models with schema information
+  gem "annotaterb"
 end
 
 group :development do

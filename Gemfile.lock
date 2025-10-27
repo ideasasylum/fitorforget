@@ -82,6 +82,9 @@ GEM
       tzinfo (~> 2.0, >= 2.0.5)
       uri (>= 0.13.1)
     android_key_attestation (0.3.0)
+    annotaterb (4.20.0)
+      activerecord (>= 6.0.0)
+      activesupport (>= 6.0.0)
     ast (2.4.3)
     base64 (0.3.0)
     bcrypt_pbkdf (1.1.1)
@@ -406,6 +409,7 @@ PLATFORMS
 
 DEPENDENCIES
   activerecord-session_store
+  annotaterb
   bootsnap
   brakeman
   bundler-audit
