@@ -83,18 +83,22 @@
         <%= turbo_frame_tag "exercise-form-frame" %>
 
         <!-- Exercises List -->
-        <% if @program.exercises.any? %>
-          <%= turbo_frame_tag "exercises-frame" do %>
-            <%= render 'exercises/list', program: @program %>
-          <% end %>
-        <% else %>
-          <div class="text-center py-12 bg-gray-50 rounded-lg">
-            <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
-            </svg>
-            <h3 class="mt-2 text-sm font-medium text-gray-900">No exercises yet</h3>
-            <% if @is_owner %>
-              <p class="mt-1 text-sm text-gray-500">Get started by adding your first exercise.</p>
+        <%= turbo_frame_tag "exercises-frame" do %>
+          <div id="exercises-list">
+            <% if @program.exercises.any? %>
+              <% @program.exercises.each do |exercise| %>
+                <%= render 'exercises/exercise', exercise: exercise %>
+              <% end %>
+            <% else %>
+              <div id="empty-exercises-state" class="text-center py-12 bg-gray-50 rounded-lg">
+                <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                </svg>
+                <h3 class="mt-2 text-sm font-medium text-gray-900">No exercises yet</h3>
+                <% if @is_owner %>
+                  <p class="mt-1 text-sm text-gray-500">Get started by adding your first exercise.</p>
+                <% end %>
+              </div>
             <% end %>
           </div>
         <% end %>

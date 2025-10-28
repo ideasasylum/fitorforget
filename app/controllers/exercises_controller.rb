@@ -26,7 +26,7 @@ class ExercisesController < ApplicationController
       end
     else
       respond_to do |format|
-        format.turbo_stream { render turbo_stream: turbo_stream.replace("exercise-form", partial: "exercises/form", locals: {program: @program, exercise: @exercise}) }
+        format.turbo_stream { render turbo_stream: turbo_stream.replace("exercise-form-frame", partial: "exercises/new", locals: {program: @program, exercise: @exercise}) }
         format.html { redirect_to @program, alert: "Failed to add exercise" }
       end
     end

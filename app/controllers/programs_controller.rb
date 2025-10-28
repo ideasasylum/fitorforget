@@ -20,7 +20,7 @@ class ProgramsController < ApplicationController
     @program = current_user.programs.build(program_params)
 
     if @program.save
-      redirect_to programs_path, notice: "Program created successfully"
+      redirect_to program_path(@program), notice: "Program created successfully"
     else
       render :new, status: :unprocessable_entity
     end
