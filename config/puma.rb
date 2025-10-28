@@ -32,8 +32,8 @@ threads threads_count, threads_count
 if ENV.fetch("RAILS_ENV", "development") == "development"
   # SSL configuration for local development
   ssl_bind "0.0.0.0", "3000", {
-    key: File.join(Dir.pwd, "local.fitorforget.com-key.pem"),
-    cert: File.join(Dir.pwd, "local.fitorforget.com.pem"),
+    key: File.join(Dir.pwd, "local.wombatworkouts.com-key.pem"),
+    cert: File.join(Dir.pwd, "local.wombatworkouts.com.pem"),
     verify_mode: "none"
   }
 else

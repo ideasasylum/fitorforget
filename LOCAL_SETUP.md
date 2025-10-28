@@ -1,17 +1,17 @@
 # Local Development Setup with SSL
 
-This project uses `local.fitorforget.com` with SSL in development to properly test WebAuthn authentication, which requires HTTPS.
+This project uses `local.wombatworkouts.com` with SSL in development to properly test WebAuthn authentication, which requires HTTPS.
 
 ## Prerequisites
 
 1. **SSL Certificates**: Already created using `mkcert`:
-   - `local.fitorforget.com.pem` (certificate)
-   - `local.fitorforget.com-key.pem` (private key)
+   - `local.wombatworkouts.com.pem` (certificate)
+   - `local.wombatworkouts.com-key.pem` (private key)
 
 2. **Hosts File Configuration**: Add the following line to your `/etc/hosts` file:
 
 ```
-127.0.0.1 local.fitorforget.com
+127.0.0.1 local.wombatworkouts.com
 ```
 
 ### How to Edit /etc/hosts
@@ -23,7 +23,7 @@ sudo nano /etc/hosts
 
 Add the line:
 ```
-127.0.0.1 local.fitorforget.com
+127.0.0.1 local.wombatworkouts.com
 ```
 
 Save and exit (Ctrl+O, Enter, Ctrl+X in nano).
@@ -49,7 +49,7 @@ The server will automatically start with SSL on port 3000.
 Open your browser and navigate to:
 
 ```
-https://local.fitorforget.com:3000
+https://local.wombatworkouts.com:3000
 ```
 
 **Note:**
@@ -61,7 +61,7 @@ https://local.fitorforget.com:3000
 
 Once the server is running and you can access the site:
 
-1. Navigate to: `https://local.fitorforget.com:3000/auth`
+1. Navigate to: `https://local.wombatworkouts.com:3000/auth`
 2. Enter an email address
 3. Your browser will prompt for biometric authentication (Face ID, Touch ID, fingerprint, etc.)
 4. Complete the biometric prompt to register or sign in
@@ -69,12 +69,12 @@ Once the server is running and you can access the site:
 ## Troubleshooting
 
 ### "Connection refused" error
-- Make sure you've added `127.0.0.1 local.fitorforget.com` to `/etc/hosts`
+- Make sure you've added `127.0.0.1 local.wombatworkouts.com` to `/etc/hosts`
 - Verify the Rails server is running
 
 ### "Your connection is not private" warning
 - This is expected with self-signed certificates
-- Click "Advanced" → "Proceed to local.fitorforget.com" (the exact text varies by browser)
+- Click "Advanced" → "Proceed to local.wombatworkouts.com" (the exact text varies by browser)
 
 ### WebAuthn not working
 - Ensure you're using `https://` and not `http://`
