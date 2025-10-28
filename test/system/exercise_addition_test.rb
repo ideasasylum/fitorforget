@@ -48,7 +48,7 @@ class ExerciseAdditionTest < ApplicationSystemTestCase
     # Verify they appear in order (both names should be present in the page)
     page_text = page.text
     assert page_text.index(exercise1_name) < page_text.index(exercise2_name),
-           "Exercises should appear in the order they were added"
+      "Exercises should appear in the order they were added"
   end
 
   test "test_adding_exercises_to_program_on_mobile" do
@@ -97,6 +97,6 @@ class ExerciseAdditionTest < ApplicationSystemTestCase
     # Verify they appear in order (both names should be present in the page)
     page_text = page.text
     assert page_text.index(exercise1_name) < page_text.index(exercise2_name),
-           "Exercises should appear in the order they were added"
+      "Exercises should appear in the order they were added"
   end
 end
