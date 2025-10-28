@@ -1,6 +1,21 @@
 require "application_system_test_case"
 
 class WorkoutCompletionTest < ApplicationSystemTestCase
+  # Helper to click button with retry for Turbo Stream DOM updates
+  def click_button_with_retry(text, max_attempts: 3)
+    attempts = 0
+    begin
+      attempts += 1
+      find_button(text, wait: 5).click
+    rescue Playwright::Error => e
+      if e.message.include?("not attached to the DOM") && attempts < max_attempts
+        sleep 0.1
+        retry
+      else
+        raise
+      end
+    end
+  end
   test "test_completing_workout_and_viewing_dashboard_on_desktop" do
     # Create user and sign in
     user = User.create!(email: "test#{Time.current.to_i}@example.com", webauthn_id: SecureRandom.hex(16))
@@ -51,9 +66,8 @@ class WorkoutCompletionTest < ApplicationSystemTestCase
 
     # Complete remaining 7 exercises to finish workout
     7.times do |i|
-      # Wait for the page to stabilize before clicking
-      assert_button "Mark Complete"
-      click_button "Mark Complete"
+      # Use retry helper to handle Turbo Stream DOM updates
+      click_button_with_retry("Mark Complete")
     end
 
     # Assert completion message appears
@@ -124,9 +138,8 @@ class WorkoutCompletionTest < ApplicationSystemTestCase
 
     # Complete remaining 7 exercises to finish workout
     7.times do |i|
-      # Wait for the page to stabilize before clicking
-      assert_button "Mark Complete"
-      click_button "Mark Complete"
+      # Use retry helper to handle Turbo Stream DOM updates
+      click_button_with_retry("Mark Complete")
     end
 
     # Assert completion message appears
