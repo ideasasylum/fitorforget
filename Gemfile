@@ -75,3 +75,11 @@ group :development do
   # Show runtime view performance in development [https://reactionview.dev]
   gem "reactionview"
 end
+
+group :test do
+  # System testing with Capybara
+  gem "capybara"
+
+  # Playwright driver for Capybara system tests
+  gem "capybara-playwright-driver"
+end
