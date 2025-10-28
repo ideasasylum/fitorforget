@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Wombat Workouts - Rails System Tests with Playwright",
   "private": true,
+  "packageManager": "yarn@3.6.3",
   "devDependencies": {
     "playwright": "1.56.1"
   },

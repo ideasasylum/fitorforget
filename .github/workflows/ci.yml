@@ -69,10 +69,12 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '18'
-          cache: 'yarn'
+
+      - name: Enable Corepack
+        run: corepack enable
 
       - name: Install JavaScript dependencies
-        run: yarn install --frozen-lockfile
+        run: yarn install --immutable
 
       - name: Set up test database
         run: bin/rails db:test:prepare
