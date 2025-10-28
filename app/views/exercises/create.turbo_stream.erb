@@ -4,4 +4,4 @@
   <%= render 'exercises/exercise', exercise: @exercise %>
 <% end %>
 
-<%= turbo_stream.replace "exercise-form-frame", "" %>
+<%= turbo_stream.update "exercise-form-frame", "" %>
